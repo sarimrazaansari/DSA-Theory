@@ -23,10 +23,7 @@ void combSort(int arr[], int n)
         {
             if (arr[i] > arr[i + gap])
             {
-                int temp = arr[i];
-                arr[i] = arr[i + gap];
-                arr[i + gap] = temp;
-
+                swap(arr[i],arr[i+gap]);
                 swapped = true;
             }
         }
