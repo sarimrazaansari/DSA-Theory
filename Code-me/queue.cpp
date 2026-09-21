@@ -129,6 +129,71 @@ class QueueLL{
         }
 };
 
+class CircularQueue{
+    int arr[5];
+    int front;
+    int rear;
+    int size;
+
+    public:
+        CircularQueue():front(-1),rear(-1),size(5){}
+
+        bool isEmpty(){
+            return front == -1;
+        }
+        bool isFull(){
+            return (rear+1)%size==front;
+        }
+
+        void enqueue(int data){
+            if(isFull()){
+                cout<<"Queue is Full\n";
+                return;
+            }
+
+            if(front==-1){
+                front=0;
+                rear=0;
+            }
+            else{
+                rear=(rear+1)%size;
+            }
+
+            arr[rear]=data;
+        }
+
+        void dequeue(){
+            if(isEmpty()){
+                cout<<"Queue is Empty\n";
+            }
+            if(front==rear){    //single element
+                front=rear=-1;
+            }
+
+            front=(front+1)%size;
+            
+        }
+
+        void peek(){
+            if(isEmpty()){
+                cout<<"Queue is Empty\n";
+            }
+            cout<<"peek: "<<arr[front]<<endl;
+        }
+
+        void display(){
+            if(isEmpty()){
+                cout<<"Queue is Empty\n";
+            }
+
+            for (int i = front; i!=rear; (i+1)%size){
+                cout<<arr[i]<<" ";
+            }
+            cout<<endl;
+            
+        }
+};
+
 int main(){
 
     cout<<"=====Array=====\n";
@@ -175,6 +240,30 @@ int main(){
     cout << endl;
 
     q2.display();
+
+    cout<<"=====Circular QUEUE=====\n";
+    QueueLL q3;
+    q3.enqueue(10);
+    q3.enqueue(20);
+    q3.enqueue(30);
+
+    cout << endl;
+
+    q3.display();
+
+    cout << endl;
+
+    q3.peek();
+
+    cout << endl;
+
+    q3.dequeue();
+
+    cout << endl;
+
+    q3.display();
+
+
 
     return 0;
 }
