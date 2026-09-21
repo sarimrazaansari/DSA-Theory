@@ -1,0 +1,3064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Complete Singly, Doubly and Circular Linked List study sheet with beginner-friendly C++ code, dry runs, comparisons, pointer diagrams and exam traps.">
+<title>Linked Lists — Complete DSA Study Sheet</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface-2: #161920;
+    --surface-3: #1b1f28;
+    --border: #252a35;
+    --text: #d4dae8;
+    --muted: #8991a3;
+    --gold: #e8c56d;
+    --cyan: #5fb3ff;
+    --red: #ff6b6b;
+    --mint: #6bffb8;
+    --sidebar: 260px;
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 30px;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    line-height: 1.7;
+}
+
+body::selection {
+    background: rgba(95, 179, 255, 0.25);
+}
+
+code,
+pre,
+.mono,
+.meta,
+.tag,
+.badge,
+.sidebar-course,
+.table-code {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: var(--sidebar);
+    height: 100vh;
+    overflow-y: auto;
+    background: #0d0f14;
+    border-right: 1px solid var(--border);
+    padding: 26px 18px;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 20px;
+}
+
+.course-logo {
+    padding: 4px 8px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.sidebar-course {
+    color: var(--cyan);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.course-title {
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    color: #fff;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.course-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.syllabus-title {
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 8px 9px;
+}
+
+.weight-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 6px;
+}
+
+.weight {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    padding: 4px 7px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--muted);
+    background: var(--surface);
+}
+
+.weight.high {
+    color: var(--gold);
+    border-color: rgba(232, 197, 109, .35);
+}
+
+.weight.core {
+    color: var(--cyan);
+    border-color: rgba(95, 179, 255, .35);
+}
+
+.nav {
+    margin-top: 22px;
+}
+
+.nav a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-left: 2px solid transparent;
+    border-radius: 0 5px 5px 0;
+    transition: .2s ease;
+}
+
+.nav a:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.nav a.active {
+    color: var(--gold);
+    background: rgba(232, 197, 109, .06);
+    border-left-color: var(--gold);
+}
+
+.nav .sub {
+    padding-left: 24px;
+    font-size: 10px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: var(--sidebar);
+    max-width: 1300px;
+    padding: 45px 55px 80px;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(95,179,255,.09), transparent 28%),
+        radial-gradient(circle at 65% 90%, rgba(232,197,109,.06), transparent 30%),
+        var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 55px 52px;
+    margin-bottom: 45px;
+}
+
+.hero::after {
+    content: "→";
+    position: absolute;
+    right: 40px;
+    bottom: -40px;
+    font-family: "Playfair Display", serif;
+    font-size: 240px;
+    color: rgba(95,179,255,.025);
+}
+
+.eyebrow {
+    color: var(--cyan);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    position: relative;
+    z-index: 1;
+    max-width: 850px;
+    font-family: "Playfair Display", serif;
+    color: #fff;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.03;
+    margin: 10px 0 18px;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero p {
+    max-width: 800px;
+    color: var(--muted);
+    font-size: 16px;
+}
+
+.hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 25px;
+}
+
+.badge {
+    border: 1px solid var(--border);
+    background: #0c0e13;
+    color: var(--text);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 10px;
+}
+
+.badge.gold {
+    color: var(--gold);
+    border-color: rgba(232,197,109,.35);
+}
+
+.badge.cyan {
+    color: var(--cyan);
+    border-color: rgba(95,179,255,.35);
+}
+
+.badge.red {
+    color: var(--red);
+    border-color: rgba(255,107,107,.35);
+}
+
+.badge.mint {
+    color: var(--mint);
+    border-color: rgba(107,255,184,.35);
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+    margin: 70px 0;
+    scroll-margin-top: 25px;
+}
+
+.section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.section-number {
+    min-width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 50%;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+}
+
+.section-title-wrap {
+    flex: 1;
+}
+
+.section h2 {
+    font-family: "Playfair Display", serif;
+    color: #fff;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+    margin: 0;
+}
+
+.section-description {
+    color: var(--muted);
+    margin: 5px 0 0;
+}
+
+.priority {
+    flex-shrink: 0;
+    margin-top: 7px;
+}
+
+h3 {
+    color: #fff;
+    font-family: "Playfair Display", serif;
+    font-size: 23px;
+    margin: 32px 0 12px;
+}
+
+h4 {
+    color: var(--gold);
+    margin: 25px 0 8px;
+}
+
+p {
+    margin: 10px 0 16px;
+}
+
+strong {
+    color: #fff;
+}
+
+ul,
+ol {
+    padding-left: 24px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+/* =========================
+   CALLOUTS
+========================= */
+
+.box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 18px 0;
+}
+
+.box .box-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 5px;
+}
+
+.box p:last-child {
+    margin-bottom: 0;
+}
+
+.box.info {
+    border-left-color: var(--cyan);
+}
+
+.box.info .box-title {
+    color: var(--cyan);
+}
+
+.box.warn {
+    border-left-color: var(--gold);
+}
+
+.box.warn .box-title {
+    color: var(--gold);
+}
+
+.box.danger {
+    border-left-color: var(--red);
+}
+
+.box.danger .box-title {
+    color: var(--red);
+}
+
+.box.tip {
+    border-left-color: var(--mint);
+}
+
+.box.tip .box-title {
+    color: var(--mint);
+}
+
+/* =========================
+   DIAGRAMS
+========================= */
+
+.diagram {
+    overflow-x: auto;
+    background: #0c0e13;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 22px;
+    margin: 18px 0;
+    text-align: center;
+}
+
+.diagram pre {
+    display: inline-block;
+    margin: 0;
+    text-align: left;
+    color: var(--text);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.arrow {
+    color: var(--gold);
+}
+
+.pointer {
+    color: var(--cyan);
+}
+
+.null {
+    color: var(--red);
+}
+
+.node-highlight {
+    color: var(--mint);
+}
+
+/* =========================
+   CODE
+========================= */
+
+.code-wrap {
+    margin: 18px 0;
+}
+
+pre[data-label] {
+    position: relative;
+    overflow-x: auto;
+    background: #090b0f;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 42px 20px 20px;
+    margin: 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    line-height: 1.75;
+    color: #cdd3df;
+}
+
+pre[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    padding: 8px 14px;
+    background: #11141a;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.kw { color: #d99cff; }
+.ty { color: var(--cyan); }
+.fn { color: var(--mint); }
+.str { color: var(--gold); }
+.cmt { color: #687184; }
+.num { color: #ff9f7a; }
+
+.inline-code {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--cyan);
+    background: rgba(95,179,255,.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: .9em;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    margin: 18px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+    background: var(--surface);
+}
+
+th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #1a1e27;
+    color: var(--gold);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    text-align: left;
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+    font-size: 13px;
+}
+
+tr:last-child td {
+    border-bottom: 0;
+}
+
+tr:hover td {
+    background: rgba(255,255,255,.015);
+}
+
+.yes {
+    color: var(--mint);
+}
+
+.no {
+    color: var(--red);
+}
+
+.highlight {
+    color: var(--gold);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 19px;
+}
+
+.card h4 {
+    margin-top: 0;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.card .symbol {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 24px;
+    color: var(--cyan);
+}
+
+/* =========================
+   QUICK REFERENCE
+========================= */
+
+.quick-ref {
+    border: 1px solid rgba(232,197,109,.3);
+    background:
+        linear-gradient(135deg, rgba(232,197,109,.045), transparent),
+        var(--surface);
+    border-radius: 13px;
+    padding: 25px;
+}
+
+.quick-ref h3 {
+    margin-top: 0;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    border-top: 1px solid var(--border);
+    padding-top: 25px;
+    margin-top: 80px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+    .main {
+        padding: 35px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 25px 20px 60px;
+    }
+
+    .hero {
+        padding: 38px 28px;
+    }
+
+    .priority {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .hero {
+        padding: 30px 22px;
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .section {
+        margin: 50px 0;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        gap: 10px;
+    }
+
+    .section-number {
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .section h2 {
+        font-size: 29px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="course-logo">
+        <div class="sidebar-course">DSA • C++</div>
+        <h1 class="course-title">Linked Lists</h1>
+        <div class="course-subtitle">Complete Exam Study Sheet</div>
+    </div>
+
+    <div class="syllabus-title">Exam Focus</div>
+
+    <div class="weight-tags">
+        <span class="weight high">CORE</span>
+        <span class="weight core">POINTERS</span>
+        <span class="weight high">INSERT</span>
+        <span class="weight high">DELETE</span>
+        <span class="weight core">SEARCH</span>
+        <span class="weight core">TRAVERSE</span>
+    </div>
+
+    <nav class="nav">
+        <a href="#mental-model">01 · Mental Model</a>
+        <a href="#singly">02 · Singly LL</a>
+        <a href="#singly-functions" class="sub">↳ Functions + Code</a>
+        <a href="#position-loops" class="sub">↳ Position Loops</a>
+        <a href="#doubly">03 · Doubly LL</a>
+        <a href="#doubly-functions" class="sub">↳ Functions + Code</a>
+        <a href="#circular">04 · Circular LL</a>
+        <a href="#circular-functions" class="sub">↳ Functions + Code</a>
+        <a href="#loops">05 · Critical Loops</a>
+        <a href="#comparison">06 · Full Comparison</a>
+        <a href="#dry-runs">07 · Pointer Dry Runs</a>
+        <a href="#traps">08 · Exam Traps</a>
+        <a href="#quick-reference">09 · Quick Reference</a>
+    </nav>
+
+</aside>
+
+
+<main class="main">
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="eyebrow">Data Structures • C++ • Linked Lists</div>
+
+    <h1>Think in <span>arrows</span>, not memorization.</h1>
+
+    <p>
+        A complete beginner-friendly reference for
+        <strong>singly, doubly and circular linked lists</strong>.
+        Focus on what every pointer stores, where each loop stops,
+        and exactly which links change during insertion and deletion.
+    </p>
+
+    <div class="hero-badges">
+        <span class="badge gold">SINGLY</span>
+        <span class="badge cyan">DOUBLY</span>
+        <span class="badge mint">CIRCULAR</span>
+        <span class="badge red">EXAM TRAPS</span>
+        <span class="badge">C++ POINTERS</span>
+        <span class="badge">DRY RUNS</span>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     01 MENTAL MODEL
+========================= -->
+
+<section class="section" id="mental-model">
+
+    <div class="section-header">
+        <div class="section-number">01</div>
+        <div class="section-title-wrap">
+            <h2>The Mental Model</h2>
+            <p class="section-description">
+                Before code: understand what a linked list actually is.
+            </p>
+        </div>
+        <span class="badge gold priority">FINAL / MIDTERM</span>
+    </div>
+
+    <p>
+        A linked list is a collection of <strong>nodes</strong>.
+        Every node stores some data and a pointer that tells us
+        where the next node is.
+    </p>
+
+    <div class="diagram">
+<pre>
+SINGLY
+
+HEAD
+  |
+  v
+[ 10 | next ] ----> [ 20 | next ] ----> [ 30 | next ] ----> NULL
+</pre>
+    </div>
+
+    <p>
+        Think of <span class="inline-code">next</span> as an arrow.
+        If node 10's <span class="inline-code">next</span> contains the
+        address of node 20, the arrow is:
+    </p>
+
+    <div class="diagram">
+<pre>
+node 10's next
+      |
+      v
+   [ node 20 ]
+</pre>
+    </div>
+
+    <h3>The Three Structures</h3>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="symbol">→</div>
+            <h4>Singly</h4>
+            <p>
+                Each node has <strong>next</strong>.
+                Last node points to <strong>NULL</strong>.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="symbol">↔</div>
+            <h4>Doubly</h4>
+            <p>
+                Each node has <strong>prev</strong> and
+                <strong>next</strong>. Can move both directions.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="symbol">↻</div>
+            <h4>Circular</h4>
+            <p>
+                Last node's <strong>next</strong> points back to
+                <strong>Head</strong>. There is no NULL at the end.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="box info">
+        <div class="box-title">Core Idea</div>
+        <p>
+            The biggest conceptual difference is extremely simple:
+            <strong>Singly → last points NULL</strong>,
+            <strong>Circular → last points Head</strong>,
+            <strong>Doubly → every connection has forward + backward links</strong>.
+        </p>
+    </div>
+
+    <h3>Node Structures</h3>
+
+    <div class="code-wrap">
+<pre data-label="singly node"><code><span class="kw">class</span> <span class="ty">Node</span> {
+<span class="kw">public</span>:
+    <span class="ty">int</span> data;
+    <span class="ty">Node</span>* next;
+};</code></pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="doubly node"><code><span class="kw">class</span> <span class="ty">Node</span> {
+<span class="kw">public</span>:
+    <span class="ty">int</span> data;
+    <span class="ty">Node</span>* prev;
+    <span class="ty">Node</span>* next;
+};</code></pre>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Critical Trap</div>
+        <p>
+            Do not think <span class="inline-code">Node* next</span> stores
+            the next node's data. It stores the <strong>address of the next node</strong>.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     02 SINGLY
+========================= -->
+
+<section class="section" id="singly">
+
+    <div class="section-header">
+        <div class="section-number">02</div>
+        <div class="section-title-wrap">
+            <h2>Singly Linked List</h2>
+            <p class="section-description">
+                One direction: current node → next node.
+            </p>
+        </div>
+        <span class="badge gold priority">CORE</span>
+    </div>
+
+    <div class="diagram">
+<pre>
+HEAD
+ |
+ v
+[10] → [20] → [30] → [40] → NULL
+</pre>
+    </div>
+
+    <h3>Basic Node</h3>
+
+    <div class="code-wrap">
+<pre data-label="node"><code><span class="kw">class</span> <span class="ty">Node</span> {
+<span class="kw">public</span>:
+    <span class="ty">int</span> data;
+    <span class="ty">Node</span>* next;
+
+    <span class="fn">Node</span>(<span class="ty">int</span> value) {
+        data = value;
+        next = <span class="kw">nullptr</span>;
+    }
+};</code></pre>
+    </div>
+
+    <h3>Important Rules</h3>
+
+    <ul>
+        <li><strong>Head</strong> stores the address of the first node.</li>
+        <li>Each node's <strong>next</strong> stores the address of the next node.</li>
+        <li>The last node has <strong>next = nullptr</strong>.</li>
+        <li>To move forward: <span class="inline-code">temp = temp-&gt;next</span>.</li>
+    </ul>
+
+    <div class="box tip">
+        <div class="box-title">Pro Tip</div>
+        <p>
+            When you see <span class="inline-code">temp-&gt;next</span>,
+            read it as: <strong>"the next pointer inside the node currently pointed to by temp."</strong>
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SINGLY FUNCTIONS
+========================= -->
+
+<section class="section" id="singly-functions">
+
+    <div class="section-header">
+        <div class="section-number">2A</div>
+        <div class="section-title-wrap">
+            <h2>Singly LL — Functions</h2>
+            <p class="section-description">
+                The standard operations you should know for an exam.
+            </p>
+        </div>
+    </div>
+
+    <h3>1. Insert at Beginning</h3>
+
+    <p>Suppose:</p>
+
+    <div class="diagram">
+<pre>
+HEAD → [20] → [30] → NULL
+
+Want to insert 10:
+
+HEAD → [10] → [20] → [30] → NULL
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="insert at beginning"><code><span class="ty">void</span> <span class="fn">insertAtBeginning</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    newNode-&gt;next = head;
+    head = newNode;
+}</code></pre>
+    </div>
+
+    <p>
+        Only two important changes:
+    </p>
+
+    <ol>
+        <li>New node points to old Head.</li>
+        <li>Head moves to the new node.</li>
+    </ol>
+
+
+    <h3>2. Insert at End</h3>
+
+    <div class="diagram">
+<pre>
+HEAD → [10] → [20] → NULL
+
+Find last node:
+             temp
+              |
+              v
+HEAD → [10] → [20] → NULL
+
+Then:
+[20].next = newNode
+newNode.next = NULL
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="insert at end"><code><span class="ty">void</span> <span class="fn">insertAtEnd</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    <span class="kw">if</span> (head == <span class="kw">nullptr</span>) {
+        head = newNode;
+        <span class="kw">return</span>;
+    }
+
+    <span class="ty">Node</span>* temp = head;
+
+    <span class="kw">while</span> (temp-&gt;next != <span class="kw">nullptr</span>) {
+        temp = temp-&gt;next;
+    }
+
+    temp-&gt;next = newNode;
+}</code></pre>
+    </div>
+
+    <div class="box info">
+        <div class="box-title">Why this loop?</div>
+        <p>
+            <span class="inline-code">temp-&gt;next != nullptr</span>
+            means: keep moving while there is another node.
+            When it becomes false, <strong>temp is the last node</strong>.
+        </p>
+    </div>
+
+
+    <h3>3. Traverse / Display</h3>
+
+    <div class="code-wrap">
+<pre data-label="traverse"><code><span class="ty">Node</span>* temp = head;
+
+<span class="kw">while</span> (temp != <span class="kw">nullptr</span>) {
+    cout &lt;&lt; temp-&gt;data &lt;&lt; <span class="str">" "</span>;
+    temp = temp-&gt;next;
+}</code></pre>
+    </div>
+
+    <p>
+        This visits:
+        <span class="inline-code">10 → 20 → 30 → NULL</span>.
+    </p>
+
+
+    <h3>4. Search</h3>
+
+    <div class="code-wrap">
+<pre data-label="search"><code><span class="ty">bool</span> <span class="fn">search</span>(<span class="ty">int</span> key) {
+    <span class="ty">Node</span>* temp = head;
+
+    <span class="kw">while</span> (temp != <span class="kw">nullptr</span>) {
+        <span class="kw">if</span> (temp-&gt;data == key)
+            <span class="kw">return true</span>;
+
+        temp = temp-&gt;next;
+    }
+
+    <span class="kw">return false</span>;
+}</code></pre>
+    </div>
+
+
+    <h3>5. Insert After a Node</h3>
+
+    <p>Suppose we have:</p>
+
+    <div class="diagram">
+<pre>
+[10] → [20] → [30] → NULL
+
+Insert 25 after 20:
+
+[10] → [20] → [25] → [30] → NULL
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="insert after"><code><span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(<span class="num">25</span>);
+
+newNode-&gt;next = temp-&gt;next;
+temp-&gt;next = newNode;</code></pre>
+    </div>
+
+    <div class="box tip">
+        <div class="box-title">Remember the Order</div>
+        <p>
+            First save the old connection in the new node:
+            <strong>new → old next</strong>.
+            Then make current point to new:
+            <strong>current → new</strong>.
+        </p>
+    </div>
+
+
+    <h3>6. Delete from Beginning</h3>
+
+    <div class="code-wrap">
+<pre data-label="delete beginning"><code><span class="kw">if</span> (head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="ty">Node</span>* temp = head;
+head = head-&gt;next;
+<span class="kw">delete</span> temp;</code></pre>
+    </div>
+
+
+    <h3>7. Delete from End</h3>
+
+    <div class="code-wrap">
+<pre data-label="delete end"><code><span class="kw">if</span> (head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="kw">if</span> (head-&gt;next == <span class="kw">nullptr</span>) {
+    <span class="kw">delete</span> head;
+    head = <span class="kw">nullptr</span>;
+    <span class="kw">return</span>;
+}
+
+<span class="ty">Node</span>* temp = head;
+
+<span class="kw">while</span> (temp-&gt;next-&gt;next != <span class="kw">nullptr</span>) {
+    temp = temp-&gt;next;
+}
+
+<span class="kw">delete</span> temp-&gt;next;
+temp-&gt;next = <span class="kw">nullptr</span>;</code></pre>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Important</div>
+        <p>
+            To delete the last node, you normally need to stand on the
+            <strong>second-last node</strong>.
+            That is why we use:
+            <span class="inline-code">temp-&gt;next-&gt;next != nullptr</span>.
+        </p>
+    </div>
+
+
+    <h3>8. Delete a Specific Node</h3>
+
+    <div class="code-wrap">
+<pre data-label="delete by value"><code><span class="ty">Node</span>* temp = head;
+
+<span class="kw">while</span> (temp-&gt;next != <span class="kw">nullptr</span>) {
+
+    <span class="kw">if</span> (temp-&gt;next-&gt;data == key) {
+        <span class="ty">Node</span>* del = temp-&gt;next;
+        temp-&gt;next = del-&gt;next;
+        <span class="kw">delete</span> del;
+        <span class="kw">return</span>;
+    }
+
+    temp = temp-&gt;next;
+}</code></pre>
+    </div>
+
+    <p>
+        Notice that <span class="inline-code">temp</span> is kept at the
+        node <strong>before</strong> the node we want to delete.
+    </p>
+
+</section>
+
+
+<!-- =========================
+     POSITION LOOPS
+========================= -->
+
+<section class="section" id="position-loops">
+
+    <div class="section-header">
+        <div class="section-number">2B</div>
+        <div class="section-title-wrap">
+            <h2>Position Loops</h2>
+            <p class="section-description">
+                One of the most important things to understand rather than memorize.
+            </p>
+        </div>
+        <span class="badge red priority">EXAM TRAP</span>
+    </div>
+
+    <h3>Exact Position — 1-Based</h3>
+
+    <div class="code-wrap">
+<pre data-label="exact position"><code><span class="kw">for</span> (<span class="ty">int</span> i = <span class="num">1</span>;
+     i &lt; position &amp;&amp; temp != <span class="kw">nullptr</span>;
+     i++) {
+
+    temp = temp-&gt;next;
+}</code></pre>
+    </div>
+
+    <p>
+        If <strong>position = 3</strong>:
+    </p>
+
+    <div class="diagram">
+<pre>
+Initial:
+i = 1
+temp = node 1
+
+i < 3 → move
+i = 2
+temp = node 2
+
+i < 3 → move
+i = 3
+temp = node 3
+
+3 < 3 → FALSE
+
+STOP → temp is node 3
+</pre>
+    </div>
+
+    <div class="box info">
+        <div class="box-title">Meaning</div>
+        <p>
+            <span class="inline-code">i = 1; i &lt; position</span>
+            makes <strong>temp stop at the exact position</strong>
+            when using 1-based positions.
+        </p>
+    </div>
+
+
+    <h3>One Position Before — 1-Based</h3>
+
+    <div class="code-wrap">
+<pre data-label="one before position"><code><span class="kw">for</span> (<span class="ty">int</span> i = <span class="num">1</span>;
+     i &lt; position - <span class="num">1</span> &amp;&amp; temp != <span class="kw">nullptr</span>;
+     i++) {
+
+    temp = temp-&gt;next;
+}</code></pre>
+    </div>
+
+    <p>
+        This is useful when insertion is performed using:
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="insert after temp"><code>newNode-&gt;next = temp-&gt;next;
+temp-&gt;next = newNode;</code></pre>
+    </div>
+
+    <p>
+        Here <strong>temp must be the node before the insertion position</strong>.
+    </p>
+
+
+    <h3>Exact Position — 0-Based</h3>
+
+    <div class="code-wrap">
+<pre data-label="0-based indexing"><code><span class="ty">int</span> index = <span class="num">0</span>;
+
+<span class="kw">while</span> (temp != <span class="kw">nullptr</span> &amp;&amp; index &lt; pos) {
+    temp = temp-&gt;next;
+    index++;
+}</code></pre>
+    </div>
+
+    <div class="diagram">
+<pre>
+Index:    0       1       2       3
+          ↓       ↓       ↓       ↓
+        [10] → [20] → [30] → [40]
+
+pos = 2
+
+index 0 → move to 20 → index 1
+index 1 → move to 30 → index 2
+index 2 < 2 ? NO
+
+STOP → temp = [30]
+</pre>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Memorize This Pattern</div>
+        <p>
+            <strong>index = 0 + index &lt; pos → exact 0-based position.</strong><br>
+            <strong>i = 1 + i &lt; position − 1 → one before 1-based insertion.</strong>
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     03 DOUBLY
+========================= -->
+
+<section class="section" id="doubly">
+
+    <div class="section-header">
+        <div class="section-number">03</div>
+        <div class="section-title-wrap">
+            <h2>Doubly Linked List</h2>
+            <p class="section-description">
+                Every node knows both its previous and next node.
+            </p>
+        </div>
+        <span class="badge cyan priority">CORE</span>
+    </div>
+
+    <div class="diagram">
+<pre>
+NULL ← [10] ⇄ [20] ⇄ [30] → NULL
+         ↑             ↑
+       prev/next     prev/next
+</pre>
+    </div>
+
+    <h3>Node</h3>
+
+    <div class="code-wrap">
+<pre data-label="doubly node"><code><span class="kw">class</span> <span class="ty">Node</span> {
+<span class="kw">public</span>:
+    <span class="ty">int</span> data;
+    <span class="ty">Node</span>* prev;
+    <span class="ty">Node</span>* next;
+
+    <span class="fn">Node</span>(<span class="ty">int</span> value) {
+        data = value;
+        prev = <span class="kw">nullptr</span>;
+        next = <span class="kw">nullptr</span>;
+    }
+};</code></pre>
+    </div>
+
+    <h3>The Two Extra Rules</h3>
+
+    <ul>
+        <li>First node: <span class="inline-code">head-&gt;prev = nullptr</span>.</li>
+        <li>Last node: <span class="inline-code">tail-&gt;next = nullptr</span>.</li>
+    </ul>
+
+    <div class="box info">
+        <div class="box-title">Why Doubly?</div>
+        <p>
+            Singly can only travel:
+            <strong>next → next → next</strong>.
+            Doubly can travel:
+            <strong>next</strong> or <strong>prev</strong>.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DOUBLY FUNCTIONS
+========================= -->
+
+<section class="section" id="doubly-functions">
+
+    <div class="section-header">
+        <div class="section-number">3A</div>
+        <div class="section-title-wrap">
+            <h2>Doubly LL — Functions</h2>
+            <p class="section-description">
+                The main difference: more pointers must be updated.
+            </p>
+        </div>
+    </div>
+
+    <h3>1. Insert at Beginning</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+NULL ← [20] ⇄ [30] → NULL
+        HEAD
+
+After inserting 10:
+
+NULL ← [10] ⇄ [20] ⇄ [30] → NULL
+        HEAD
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="insert beginning"><code><span class="ty">void</span> <span class="fn">insertAtBeginning</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    newNode-&gt;next = head;
+
+    <span class="kw">if</span> (head != <span class="kw">nullptr</span>)
+        head-&gt;prev = newNode;
+
+    head = newNode;
+}</code></pre>
+    </div>
+
+    <p>
+        Four conceptual things to remember:
+    </p>
+
+    <ol>
+        <li>New node's next = old head.</li>
+        <li>Old head's prev = new node.</li>
+        <li>New node's prev remains NULL.</li>
+        <li>Head = new node.</li>
+    </ol>
+
+
+    <h3>2. Insert at End</h3>
+
+    <p>
+        If you have a <strong>tail pointer</strong>, this becomes very easy.
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="insert end with tail"><code><span class="ty">void</span> <span class="fn">insertAtEnd</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    <span class="kw">if</span> (head == <span class="kw">nullptr</span>) {
+        head = tail = newNode;
+        <span class="kw">return</span>;
+    }
+
+    tail-&gt;next = newNode;
+    newNode-&gt;prev = tail;
+    tail = newNode;
+}</code></pre>
+    </div>
+
+
+    <h3>3. Traverse Forward</h3>
+
+    <div class="code-wrap">
+<pre data-label="forward traversal"><code><span class="ty">Node</span>* temp = head;
+
+<span class="kw">while</span> (temp != <span class="kw">nullptr</span>) {
+    cout &lt;&lt; temp-&gt;data &lt;&lt; <span class="str">" "</span>;
+    temp = temp-&gt;next;
+}</code></pre>
+    </div>
+
+
+    <h3>4. Traverse Backward</h3>
+
+    <div class="code-wrap">
+<pre data-label="backward traversal"><code><span class="ty">Node</span>* temp = tail;
+
+<span class="kw">while</span> (temp != <span class="kw">nullptr</span>) {
+    cout &lt;&lt; temp-&gt;data &lt;&lt; <span class="str">" "</span>;
+    temp = temp-&gt;prev;
+}</code></pre>
+    </div>
+
+
+    <h3>5. Insert in the Middle</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+[A] ⇄ [B] ⇄ [C]
+
+Insert X between B and C:
+
+[A] ⇄ [B] ⇄ [X] ⇄ [C]
+</pre>
+    </div>
+
+    <p>
+        Four links need to be correct:
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="four pointer changes"><code>newNode-&gt;next = temp-&gt;next;
+newNode-&gt;prev = temp;
+
+temp-&gt;next-&gt;prev = newNode;
+temp-&gt;next = newNode;</code></pre>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Doubly LL Trap</div>
+        <p>
+            In a doubly linked list, inserting between two nodes usually
+            requires <strong>four pointer updates</strong>, not two.
+            Forgetting one of them can break backward traversal.
+        </p>
+    </div>
+
+
+    <h3>6. Delete from Beginning</h3>
+
+    <div class="code-wrap">
+<pre data-label="delete beginning"><code><span class="kw">if</span> (head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="ty">Node</span>* temp = head;
+
+<span class="kw">if</span> (head == tail) {
+    head = tail = <span class="kw">nullptr</span>;
+}
+<span class="kw">else</span> {
+    head = head-&gt;next;
+    head-&gt;prev = <span class="kw">nullptr</span>;
+}
+
+<span class="kw">delete</span> temp;</code></pre>
+    </div>
+
+
+    <h3>7. Delete from End</h3>
+
+    <div class="code-wrap">
+<pre data-label="delete end"><code><span class="kw">if</span> (head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="ty">Node</span>* temp = tail;
+
+<span class="kw">if</span> (head == tail) {
+    head = tail = <span class="kw">nullptr</span>;
+}
+<span class="kw">else</span> {
+    tail = tail-&gt;prev;
+    tail-&gt;next = <span class="kw">nullptr</span>;
+}
+
+<span class="kw">delete</span> temp;</code></pre>
+    </div>
+
+
+    <h3>8. Delete a Middle Node</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+[A] ⇄ [B] ⇄ [C]
+
+Delete B:
+
+[A] ⇄ [C]
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="delete middle"><code><span class="ty">Node</span>* del = temp;
+
+del-&gt;prev-&gt;next = del-&gt;next;
+del-&gt;next-&gt;prev = del-&gt;prev;
+
+<span class="kw">delete</span> del;</code></pre>
+    </div>
+
+    <div class="box tip">
+        <div class="box-title">Easy Way to Think</div>
+        <p>
+            When deleting B, make A skip B and make C skip backward over B:
+            <strong>A → C</strong> and <strong>C → A</strong>.
+        </p>
+    </div>
+
+
+    <h3>9. Search</h3>
+
+    <div class="code-wrap">
+<pre data-label="doubly search"><code><span class="ty">Node</span>* temp = head;
+
+<span class="kw">while</span> (temp != <span class="kw">nullptr</span>) {
+    <span class="kw">if</span> (temp-&gt;data == key) {
+        cout &lt;&lt; <span class="str">"Found"</span>;
+        <span class="kw">return</span>;
+    }
+
+    temp = temp-&gt;next;
+}
+
+cout &lt;&lt; <span class="str">"Not found"</span>;</code></pre>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     04 CIRCULAR
+========================= -->
+
+<section class="section" id="circular">
+
+    <div class="section-header">
+        <div class="section-number">04</div>
+        <div class="section-title-wrap">
+            <h2>Circular Singly Linked List</h2>
+            <p class="section-description">
+                Same next pointer as singly — but the last node points back to Head.
+            </p>
+        </div>
+        <span class="badge mint priority">CORE</span>
+    </div>
+
+    <div class="diagram">
+<pre>
+              ┌─────────────────────────┐
+              │                         │
+              ▼                         │
+HEAD → [10] → [20] → [30] → [40] ──────┘
+</pre>
+    </div>
+
+    <div class="box info">
+        <div class="box-title">The One Big Difference</div>
+        <p>
+            Singly:
+            <span class="inline-code">last-&gt;next = nullptr</span>.
+            Circular:
+            <span class="inline-code">last-&gt;next = Head</span>.
+        </p>
+    </div>
+
+    <h3>One-Node Circular List</h3>
+
+    <div class="diagram">
+<pre>
+HEAD
+ |
+ v
+[10]
+ ↑ |
+ └─┘
+
+Head->next == Head
+</pre>
+    </div>
+
+    <div class="code-wrap">
+<pre data-label="circular constructor"><code><span class="ty">CircularLL</span>(<span class="ty">int</span> value) {
+    Head = <span class="kw">new</span> <span class="ty">Node</span>(value);
+    Head-&gt;next = Head;
+}</code></pre>
+    </div>
+
+    <p>
+        The node points to itself because it is both the first and last node.
+    </p>
+
+</section>
+
+
+<!-- =========================
+     CIRCULAR FUNCTIONS
+========================= -->
+
+<section class="section" id="circular-functions">
+
+    <div class="section-header">
+        <div class="section-number">4A</div>
+        <div class="section-title-wrap">
+            <h2>Circular LL — Functions</h2>
+            <p class="section-description">
+                The operations are similar to singly, but NULL-based loops must change.
+            </p>
+        </div>
+    </div>
+
+    <h3>1. Insert at End</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular insert end"><code><span class="ty">void</span> <span class="fn">insertAtEnd</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    <span class="ty">Node</span>* temp = Head;
+
+    <span class="kw">while</span> (temp-&gt;next != Head) {
+        temp = temp-&gt;next;
+    }
+
+    temp-&gt;next = newNode;
+    newNode-&gt;next = Head;
+}</code></pre>
+    </div>
+
+    <p>
+        The loop:
+        <span class="inline-code">temp-&gt;next != Head</span>
+        finds the last node.
+    </p>
+
+
+    <h3>2. Insert at Beginning</h3>
+
+    <p>
+        This is slightly more complicated than singly because the
+        <strong>last node must point to the new Head</strong>.
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="circular insert first"><code><span class="ty">void</span> <span class="fn">insertAtFirst</span>(<span class="ty">int</span> value) {
+    <span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+    <span class="ty">Node</span>* temp = Head;
+
+    <span class="kw">while</span> (temp-&gt;next != Head) {
+        temp = temp-&gt;next;
+    }
+
+    newNode-&gt;next = Head;
+    temp-&gt;next = newNode;
+    Head = newNode;
+}</code></pre>
+    </div>
+
+    <div class="diagram">
+<pre>
+Before:
+
+HEAD → [10] → [20] → [30]
+         ↑             |
+         └─────────────┘
+
+Insert 5:
+
+HEAD → [5] → [10] → [20] → [30]
+ ↑                           |
+ └───────────────────────────┘
+</pre>
+    </div>
+
+
+    <h3>3. Traverse / Print</h3>
+
+    <p>
+        You cannot use <span class="inline-code">temp != nullptr</span>
+        because a circular list does not reach NULL.
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="circular traversal"><code><span class="ty">Node</span>* temp = Head;
+
+<span class="kw">do</span> {
+    cout &lt;&lt; temp-&gt;data &lt;&lt; <span class="str">" "</span>;
+    temp = temp-&gt;next;
+} <span class="kw">while</span> (temp != Head);</code></pre>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Critical Circular Trap</div>
+        <p>
+            This is dangerous:
+            <span class="inline-code">while(temp != nullptr)</span>.
+            In a circular list, temp will never become NULL.
+            The loop can continue forever.
+        </p>
+    </div>
+
+
+    <h3>4. Search</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular search"><code><span class="ty">Node</span>* current = Head;
+
+<span class="kw">do</span> {
+    <span class="kw">if</span> (current-&gt;key == key) {
+        cout &lt;&lt; <span class="str">"Found"</span>;
+        <span class="kw">return</span>;
+    }
+
+    current = current-&gt;next;
+
+} <span class="kw">while</span> (current != Head);
+
+cout &lt;&lt; <span class="str">"Not found"</span>;</code></pre>
+    </div>
+
+
+    <h3>5. Insert After a Node</h3>
+
+    <div class="code-wrap">
+<pre data-label="insert after current"><code><span class="ty">Node</span>* newNode = <span class="kw">new</span> <span class="ty">Node</span>(value);
+
+newNode-&gt;next = current-&gt;next;
+current-&gt;next = newNode;</code></pre>
+    </div>
+
+    <p>
+        Exactly the same pointer idea as singly.
+        Circularity automatically remains intact when the links are changed correctly.
+    </p>
+
+
+    <h3>6. Delete from Beginning</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular delete beginning"><code><span class="kw">if</span> (Head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="kw">if</span> (Head-&gt;next == Head) {
+    <span class="kw">delete</span> Head;
+    Head = <span class="kw">nullptr</span>;
+    <span class="kw">return</span>;
+}
+
+<span class="ty">Node</span>* last = Head;
+
+<span class="kw">while</span> (last-&gt;next != Head)
+    last = last-&gt;next;
+
+<span class="ty">Node</span>* temp = Head;
+
+Head = Head-&gt;next;
+last-&gt;next = Head;
+
+<span class="kw">delete</span> temp;</code></pre>
+    </div>
+
+    <p>
+        Why find the last node?
+        Because after Head changes, the last node must point to the
+        <strong>new Head</strong>.
+    </p>
+
+
+    <h3>7. Delete from End</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular delete end"><code><span class="kw">if</span> (Head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="kw">if</span> (Head-&gt;next == Head) {
+    <span class="kw">delete</span> Head;
+    Head = <span class="kw">nullptr</span>;
+    <span class="kw">return</span>;
+}
+
+<span class="ty">Node</span>* temp = Head;
+
+<span class="kw">while</span> (temp-&gt;next-&gt;next != Head) {
+    temp = temp-&gt;next;
+}
+
+<span class="ty">Node</span>* last = temp-&gt;next;
+
+temp-&gt;next = Head;
+
+<span class="kw">delete</span> last;</code></pre>
+    </div>
+
+
+    <h3>8. Delete by Key</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular delete node"><code><span class="kw">if</span> (Head == <span class="kw">nullptr</span>)
+    <span class="kw">return</span>;
+
+<span class="kw">if</span> (Head-&gt;key == key) {
+    deleteFromBeginning();
+    <span class="kw">return</span>;
+}
+
+<span class="ty">Node</span>* current = Head;
+
+<span class="kw">while</span> (current-&gt;next != Head) {
+
+    <span class="kw">if</span> (current-&gt;next-&gt;key == key) {
+        <span class="ty">Node</span>* temp = current-&gt;next;
+        current-&gt;next = temp-&gt;next;
+        <span class="kw">delete</span> temp;
+        <span class="kw">return</span>;
+    }
+
+    current = current-&gt;next;
+}</code></pre>
+    </div>
+
+
+    <h3>9. Circular "Insert at Middle" by Key</h3>
+
+    <p>
+        The teacher's version used <strong>key ordering</strong>, not a numeric position.
+        The idea was:
+    </p>
+
+    <div class="code-wrap">
+<pre data-label="teacher approach"><code><span class="ty">void</span> <span class="fn">insertAtMid</span>(<span class="ty">int</span> key, <span class="ty">int</span> data) {
+
+    <span class="ty">Node</span>* current = Head;
+
+    <span class="kw">do</span> {
+
+        <span class="kw">if</span> (current-&gt;key == key) {
+            <span class="cmt">// duplicate key</span>
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">if</span> ((current-&gt;key &lt; key) &amp;&amp;
+            (current-&gt;next-&gt;key &gt; key)) {
+
+            <span class="ty">Node</span>* newNode =
+                <span class="kw">new</span> <span class="ty">Node</span>(key, data);
+
+            newNode-&gt;next = current-&gt;next;
+            current-&gt;next = newNode;
+
+            <span class="kw">return</span>;
+        }
+
+        current = current-&gt;next;
+
+    } <span class="kw">while</span> (current != Head);
+
+    cout &lt;&lt; <span class="str">"Suitable position not found."</span>;
+}</code></pre>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Teacher Code Assumption</div>
+        <p>
+            This middle-insertion condition assumes the keys are already
+            arranged in ascending order.
+            If the list is <strong>6 → 7 → 8 → 9 → 0 → 1</strong>,
+            the condition for inserting key 2 may not be satisfied.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     05 LOOPS
+========================= -->
+
+<section class="section" id="loops">
+
+    <div class="section-header">
+        <div class="section-number">05</div>
+        <div class="section-title-wrap">
+            <h2>Critical Pointer Loops</h2>
+            <p class="section-description">
+                These loop conditions are among the most important exam patterns.
+            </p>
+        </div>
+        <span class="badge red priority">HIGH PRIORITY</span>
+    </div>
+
+    <h3>Find Last — Singly</h3>
+
+    <div class="code-wrap">
+<pre data-label="singly"><code><span class="kw">while</span> (temp-&gt;next != <span class="kw">nullptr</span>)
+    temp = temp-&gt;next;</code></pre>
+    </div>
+
+    <p>
+        Stop when <strong>temp is the last node</strong>.
+    </p>
+
+
+    <h3>Find Second-Last — Singly</h3>
+
+    <div class="code-wrap">
+<pre data-label="singly"><code><span class="kw">while</span> (temp-&gt;next-&gt;next != <span class="kw">nullptr</span>)
+    temp = temp-&gt;next;</code></pre>
+    </div>
+
+    <p>
+        Stop when <strong>temp is the second-last node</strong>.
+    </p>
+
+
+    <h3>Find Last — Circular</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular"><code><span class="kw">while</span> (temp-&gt;next != Head)
+    temp = temp-&gt;next;</code></pre>
+    </div>
+
+    <p>
+        Stop when <strong>temp is the last node</strong>.
+        Why? Because the last node's next points to Head.
+    </p>
+
+
+    <h3>Find Second-Last — Circular</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular"><code><span class="kw">while</span> (temp-&gt;next-&gt;next != Head)
+    temp = temp-&gt;next;</code></pre>
+    </div>
+
+    <p>
+        Stop when <strong>temp is the second-last node</strong>.
+    </p>
+
+    <div class="box danger">
+        <div class="box-title">Must Know</div>
+        <p>
+            <span class="inline-code">temp-&gt;next != Head</span>
+            → temp becomes <strong>LAST</strong>.<br>
+            <span class="inline-code">temp-&gt;next-&gt;next != Head</span>
+            → temp becomes <strong>SECOND-LAST</strong>.
+        </p>
+    </div>
+
+
+    <h3>Why Do-While in Circular Lists?</h3>
+
+    <div class="code-wrap">
+<pre data-label="circular traversal"><code><span class="kw">do</span> {
+    <span class="cmt">// process current node</span>
+    current = current-&gt;next;
+} <span class="kw">while</span> (current != Head);</code></pre>
+    </div>
+
+    <p>
+        Starting at Head means we want to process Head first.
+        Then we keep moving until we return to Head.
+    </p>
+
+    <div class="diagram">
+<pre>
+HEAD → A → B → C
+ ↑           |
+ └───────────┘
+
+Start: A
+process A
+move B
+process B
+move C
+process C
+move A
+A == HEAD → STOP
+</pre>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     06 FULL COMPARISON
+========================= -->
+
+<section class="section" id="comparison">
+
+    <div class="section-header">
+        <div class="section-number">06</div>
+        <div class="section-title-wrap">
+            <h2>Complete Function Comparison</h2>
+            <p class="section-description">
+                Singly vs Doubly vs Circular — operation by operation.
+            </p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Operation</th>
+                    <th>Singly</th>
+                    <th>Doubly</th>
+                    <th>Circular Singly</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Node pointers</td>
+                    <td>next</td>
+                    <td>prev + next</td>
+                    <td>next</td>
+                </tr>
+                <tr>
+                    <td>Last node</td>
+                    <td class="highlight">next = NULL</td>
+                    <td class="highlight">next = NULL</td>
+                    <td class="highlight">next = Head</td>
+                </tr>
+                <tr>
+                    <td>First node prev</td>
+                    <td>Not available</td>
+                    <td>prev = NULL</td>
+                    <td>Not available</td>
+                </tr>
+                <tr>
+                    <td>Forward traversal</td>
+                    <td>temp → next</td>
+                    <td>temp → next</td>
+                    <td>temp → next</td>
+                </tr>
+                <tr>
+                    <td>Backward traversal</td>
+                    <td class="no">No</td>
+                    <td class="yes">Yes</td>
+                    <td class="no">No</td>
+                </tr>
+                <tr>
+                    <td>Normal stopping condition</td>
+                    <td>temp != NULL</td>
+                    <td>temp != NULL</td>
+                    <td>temp != Head</td>
+                </tr>
+                <tr>
+                    <td>Insert beginning</td>
+                    <td>Easy</td>
+                    <td>Easy + prev update</td>
+                    <td>Must update last → new Head</td>
+                </tr>
+                <tr>
+                    <td>Insert end</td>
+                    <td>Find last unless tail exists</td>
+                    <td>Easy with tail</td>
+                    <td>Find last unless tail exists</td>
+                </tr>
+                <tr>
+                    <td>Delete beginning</td>
+                    <td>Move Head</td>
+                    <td>Move Head + prev</td>
+                    <td>Move Head + last → new Head</td>
+                </tr>
+                <tr>
+                    <td>Delete end</td>
+                    <td>Need second-last</td>
+                    <td>Tail makes it easy</td>
+                    <td>Need second-last</td>
+                </tr>
+                <tr>
+                    <td>Delete middle</td>
+                    <td>Previous node required</td>
+                    <td>prev + next available</td>
+                    <td>Previous node required</td>
+                </tr>
+                <tr>
+                    <td>Memory per node</td>
+                    <td>Lower</td>
+                    <td>Higher</td>
+                    <td>Lower</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <h3>All Main Functions Side-by-Side</h3>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Singly</th>
+                    <th>Doubly</th>
+                    <th>Circular</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><strong>Insert First</strong></td>
+                    <td><span class="table-code">new→next=head<br>head=new</span></td>
+                    <td><span class="table-code">new→next=head<br>head→prev=new<br>head=new</span></td>
+                    <td><span class="table-code">new→next=head<br>last→next=new<br>head=new</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Insert End</strong></td>
+                    <td><span class="table-code">last→next=new<br>new→next=NULL</span></td>
+                    <td><span class="table-code">tail→next=new<br>new→prev=tail<br>tail=new</span></td>
+                    <td><span class="table-code">last→next=new<br>new→next=head</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Delete First</strong></td>
+                    <td><span class="table-code">temp=head<br>head=head→next<br>delete temp</span></td>
+                    <td><span class="table-code">temp=head<br>head=head→next<br>head→prev=NULL<br>delete temp</span></td>
+                    <td><span class="table-code">temp=head<br>head=head→next<br>last→next=head<br>delete temp</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Delete End</strong></td>
+                    <td><span class="table-code">find second-last<br>delete last<br>secondLast→next=NULL</span></td>
+                    <td><span class="table-code">temp=tail<br>tail=tail→prev<br>tail→next=NULL<br>delete temp</span></td>
+                    <td><span class="table-code">find second-last<br>delete last<br>secondLast→next=head</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Traverse</strong></td>
+                    <td><span class="table-code">while(temp!=NULL)</span></td>
+                    <td><span class="table-code">while(temp!=NULL)</span></td>
+                    <td><span class="table-code">do...while(temp!=head)</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Search</strong></td>
+                    <td><span class="table-code">while(temp!=NULL)</span></td>
+                    <td><span class="table-code">while(temp!=NULL)</span></td>
+                    <td><span class="table-code">do...while(temp!=head)</span></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h3>Which Pointer Does the Work?</h3>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Singly</th>
+                    <th>Doubly</th>
+                    <th>Circular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Move forward</td>
+                    <td>temp = temp→next</td>
+                    <td>temp = temp→next</td>
+                    <td>temp = temp→next</td>
+                </tr>
+                <tr>
+                    <td>Move backward</td>
+                    <td class="no">Impossible directly</td>
+                    <td>temp = temp→prev</td>
+                    <td class="no">Impossible directly</td>
+                </tr>
+                <tr>
+                    <td>Find last</td>
+                    <td>next == NULL</td>
+                    <td>tail or next == NULL</td>
+                    <td>next == Head</td>
+                </tr>
+                <tr>
+                    <td>Find second-last</td>
+                    <td>next→next == NULL</td>
+                    <td>tail→prev</td>
+                    <td>next→next == Head</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     07 DRY RUNS
+========================= -->
+
+<section class="section" id="dry-runs">
+
+    <div class="section-header">
+        <div class="section-number">07</div>
+        <div class="section-title-wrap">
+            <h2>Pointer Dry Runs</h2>
+            <p class="section-description">
+                Follow the arrows exactly as the code executes.
+            </p>
+        </div>
+    </div>
+
+    <h3>Singly — Insert 25 After 20</h3>
+
+    <div class="diagram">
+<pre>
+Initial:
+
+HEAD
+ |
+ v
+[10] → [20] → [30] → NULL
+        ↑
+       temp
+
+
+Step 1:
+newNode = [25]
+
+Step 2:
+newNode->next = temp->next
+
+[25] ───────────────→ [30]
+
+Step 3:
+temp->next = newNode
+
+[10] → [20] → [25] → [30] → NULL
+</pre>
+    </div>
+
+
+    <h3>Doubly — Insert X Between B and C</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+[A] ⇄ [B] ⇄ [C]
+
+
+1. new->next = B->next
+
+[X] → [C]
+
+
+2. new->prev = B
+
+[B] ← [X] → [C]
+
+
+3. C->prev = X
+
+[B] ⇄ [X] ⇄ [C]
+
+
+4. B->next = X
+
+Final:
+
+[A] ⇄ [B] ⇄ [X] ⇄ [C]
+</pre>
+    </div>
+
+
+    <h3>Circular — Insert at Beginning</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+HEAD
+ ↓
+[10] → [20] → [30]
+ ↑              |
+ └──────────────┘
+
+
+Find last:
+temp = [30]
+
+
+newNode = [5]
+
+
+newNode->next = Head
+
+[5] → [10]
+
+
+temp->next = newNode
+
+[30] → [5]
+
+
+Head = newNode
+
+
+Final:
+
+HEAD
+ ↓
+[5] → [10] → [20] → [30]
+ ↑                       |
+ └───────────────────────┘
+</pre>
+    </div>
+
+
+    <h3>Circular — Delete Last</h3>
+
+    <div class="diagram">
+<pre>
+Before:
+
+HEAD
+ ↓
+[10] → [20] → [30]
+ ↑              |
+ └──────────────┘
+
+
+Need SECOND-LAST.
+
+temp = [10]
+
+Check:
+temp->next->next == Head ?
+
+[10]->[20]->[30]
+              ↓
+             Head
+
+No.
+
+Move:
+temp = [20]
+
+Now:
+[20]->[30]->Head
+
+YES → temp is second-last.
+
+
+last = temp->next
+
+last = [30]
+
+
+temp->next = Head
+
+[20] → Head
+
+
+delete [30]
+
+
+Final:
+
+HEAD → [10] → [20]
+ ↑              |
+ └──────────────┘
+</pre>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     08 TEACHER CIRCULAR CODE
+========================= -->
+
+<section class="section" id="teacher-code">
+
+    <div class="section-header">
+        <div class="section-number">08</div>
+        <div class="section-title-wrap">
+            <h2>Teacher's Circular Approach</h2>
+            <p class="section-description">
+                The exact patterns from the circular-list implementation discussed in class.
+            </p>
+        </div>
+    </div>
+
+    <h3>Node with Key + Data</h3>
+
+    <div class="code-wrap">
+<pre data-label="teacher-style node"><code><span class="kw">class</span> <span class="ty">Node</span> {
+<span class="kw">public</span>:
+    <span class="ty">int</span> key;
+    <span class="ty">int</span> data;
+    <span class="ty">Node</span>* next;
+
+    <span class="fn">Node</span>() :
+        key(<span class="num">0</span>),
+        data(<span class="num">0</span>),
+        next(<span class="kw">NULL</span>) {}
+
+    <span class="fn">Node</span>(<span class="ty">int</span> k, <span class="ty">int</span> d) :
+        key(k),
+        data(d),
+        next(<span class="kw">NULL</span>) {}
+};</code></pre>
+    </div>
+
+    <div class="box info">
+        <div class="box-title">Key vs Data</div>
+        <p>
+            In this implementation, <span class="inline-code">key</span>
+            and <span class="inline-code">data</span> are separate.
+            For example:
+            <span class="inline-code">insertatmid(2, 3)</span>
+            means <strong>key = 2, data = 3</strong>.
+        </p>
+    </div>
+
+    <h3>Constructor</h3>
+
+    <div class="code-wrap">
+<pre data-label="one-node circular list"><code><span class="ty">CircularLL</span>(<span class="ty">int</span> k, <span class="ty">int</span> d) {
+    Head = <span class="kw">new</span> <span class="ty">Node</span>(k, d);
+    Head-&gt;next = Head;
+}</code></pre>
+    </div>
+
+    <p>
+        This creates:
+        <span class="inline-code">Head → Head</span>.
+    </p>
+
+    <h3>Teacher's Insert at End</h3>
+
+    <div class="code-wrap">
+<pre data-label="teacher-style"><code><span class="ty">void</span> <span class="fn">insertatEnd</span>(<span class="ty">int</span> k, <span class="ty">int</span> d) {
+
+    <span class="ty">Node</span>* end = <span class="kw">new</span> <span class="ty">Node</span>(k, d);
+
+    <span class="ty">Node</span>* temp = Head;
+
+    <span class="kw">while</span> (temp-&gt;next != Head)
+        temp = temp-&gt;next;
+
+    temp-&gt;next = end;
+    end-&gt;next = Head;
+}</code></pre>
+    </div>
+
+    <h3>Teacher's Insert at First</h3>
+
+    <div class="code-wrap">
+<pre data-label="teacher-style"><code><span class="ty">void</span> <span class="fn">insertatFirst</span>(<span class="ty">int</span> k, <span class="ty">int</span> d) {
+
+    <span class="ty">Node</span>* newnode = <span class="kw">new</span> <span class="ty">Node</span>(k, d);
+    <span class="ty">Node</span>* temp = Head;
+
+    <span class="kw">while</span> (temp-&gt;next != Head)
+        temp = temp-&gt;next;
+
+    newnode-&gt;next = Head;
+    temp-&gt;next = newnode;
+    Head = newnode;
+}</code></pre>
+    </div>
+
+    <h3>Teacher's Delete Beginning</h3>
+
+    <div class="code-wrap">
+<pre data-label="teacher-style"><code><span class="kw">if</span> (Head == <span class="kw">NULL</span>)
+    <span class="kw">return</span>;
+
+<span class="kw">if</span> (Head-&gt;next == Head) {
+    <span class="kw">delete</span> Head;
+    Head = <span class="kw">NULL</span>;
+    <span class="kw">return</span>;
+}
+
+<span class="ty">Node</span>* last = Head;
+
+<span class="kw">while</span> (last-&gt;next != Head)
+    last = last-&gt;next;
+
+<span class="ty">Node</span>* temp = Head;
+
+Head = Head-&gt;next;
+last-&gt;next = Head;
+
+<span class="kw">delete</span> temp;</code></pre>
+    </div>
+
+    <h3>Teacher's Delete End</h3>
+
+    <div class="code-wrap">
+<pre data-label="teacher-style"><code><span class="ty">Node</span>* temp = Head;
+
+<span class="kw">while</span> (temp-&gt;next-&gt;next != Head)
+    temp = temp-&gt;next;
+
+<span class="ty">Node</span>* last = temp-&gt;next;
+
+temp-&gt;next = Head;
+
+<span class="kw">delete</span> last;</code></pre>
+    </div>
+
+    <h3>Teacher's Search / Print Pattern</h3>
+
+    <div class="code-wrap">
+<pre data-label="do-while pattern"><code><span class="ty">Node</span>* current = Head;
+
+<span class="kw">do</span> {
+    <span class="kw">if</span> (current-&gt;key == key) {
+        cout &lt;&lt; <span class="str">"Found"</span>;
+        <span class="kw">return</span>;
+    }
+
+    current = current-&gt;next;
+
+} <span class="kw">while</span> (current != Head);</code></pre>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Teacher Code Observation</div>
+        <p>
+            If the main program first creates keys
+            <strong>6, 7, 8, 9</strong> and then inserts
+            <strong>0, 1 at the beginning</strong>, the list becomes
+            <strong>1 → 0 → 6 → 7 → 8 → 9</strong>.
+            Therefore a middle insertion function that expects sorted keys
+            may not find a suitable location for key 2.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     09 EXAM TRAPS
+========================= -->
+
+<section class="section" id="traps">
+
+    <div class="section-header">
+        <div class="section-number">09</div>
+        <div class="section-title-wrap">
+            <h2>Exam Traps & Mistakes</h2>
+            <p class="section-description">
+                The small details that cause pointer questions to go wrong.
+            </p>
+        </div>
+        <span class="badge red priority">MEMORIZE</span>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Trap #1 — Circular + NULL</div>
+        <p>
+            Never use <span class="inline-code">while(temp != NULL)</span>
+            to traverse a normal circular list.
+            It does not end at NULL.
+        </p>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Trap #2 — Last vs Second-Last</div>
+        <p>
+            <span class="inline-code">temp-&gt;next != Head</span>
+            → temp is LAST.<br>
+            <span class="inline-code">temp-&gt;next-&gt;next != Head</span>
+            → temp is SECOND-LAST.
+        </p>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Trap #3 — Losing the Remaining List</div>
+        <p>
+            When inserting after temp, do not write:
+            <span class="inline-code">temp-&gt;next = newNode</span>
+            first and forget the old next address.
+            You must first do:
+            <span class="inline-code">newNode-&gt;next = temp-&gt;next</span>.
+        </p>
+    </div>
+
+    <div class="box danger">
+        <div class="box-title">Trap #4 — Doubly Requires Both Directions</div>
+        <p>
+            Changing only <span class="inline-code">next</span> in a doubly
+            linked list can make forward traversal work while backward traversal
+            becomes incorrect.
+        </p>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Trap #5 — One Node</div>
+        <p>
+            Deletion from beginning/end must handle the one-node case separately.
+            In a circular list:
+            <span class="inline-code">Head-&gt;next == Head</span>
+            means there is exactly one node.
+        </p>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Trap #6 — Position Indexing</div>
+        <p>
+            Always determine whether the question uses
+            <strong>0-based</strong> or <strong>1-based</strong> positions.
+            Your loop can otherwise stop at the wrong node.
+        </p>
+    </div>
+
+    <div class="box warn">
+        <div class="box-title">Trap #7 — Delete Needs the Right Pointer</div>
+        <p>
+            In a singly/circular list, deleting a middle node usually means
+            finding the <strong>previous node</strong>, because you need to change
+            its <span class="inline-code">next</span>.
+        </p>
+    </div>
+
+    <div class="box tip">
+        <div class="box-title">Pro Tip — Draw First</div>
+        <p>
+            If a pointer question looks confusing, draw three boxes:
+            <strong>A → B → C</strong>.
+            Then write exactly which arrow each line of code changes.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     10 QUICK REFERENCE
+========================= -->
+
+<section class="section" id="quick-reference">
+
+    <div class="section-header">
+        <div class="section-number">10</div>
+        <div class="section-title-wrap">
+            <h2>Final Quick Reference</h2>
+            <p class="section-description">
+                Last-minute revision table.
+            </p>
+        </div>
+    </div>
+
+    <div class="quick-ref">
+
+        <h3>Common Mistakes → Fixes</h3>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mistake</th>
+                        <th>Correct Idea</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Using NULL to stop circular traversal</td>
+                        <td><strong>Stop when temp == Head.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Thinking next stores data</td>
+                        <td><strong>next stores an address/pointer.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Finding last in circular with next == NULL</td>
+                        <td><strong>Last has next == Head.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Using next != Head to find second-last</td>
+                        <td><strong>Use next→next != Head.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Deleting a middle singly node directly</td>
+                        <td><strong>Find its previous node first.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Forgetting old next during insertion</td>
+                        <td><strong>newNode→next = temp→next first.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Changing only next in doubly LL</td>
+                        <td><strong>Update both prev and next links.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Deleting last without second-last</td>
+                        <td><strong>Find second-last, then redirect its next.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ignoring one-node case</td>
+                        <td><strong>Check head == tail or head→next == head.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Confusing exact position with previous position</td>
+                        <td><strong>Check loop condition carefully.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Using i=1, i&lt;position for "insert after previous"</td>
+                        <td><strong>Use i&lt;position−1 when temp must be previous.</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>Using 1-based logic for a 0-based pos</td>
+                        <td><strong>Start index=0 and use index&lt;pos for exact position.</strong></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <h3>Ultra-Short Cheat Sheet</h3>
+
+        <div class="code-wrap">
+<pre data-label="memorize this"><code><span class="cmt">// SINGLY</span>
+last-&gt;next = <span class="kw">nullptr</span>
+traverse: <span class="kw">while</span>(temp != <span class="kw">nullptr</span>)
+
+<span class="cmt">// DOUBLY</span>
+first-&gt;prev = <span class="kw">nullptr</span>
+last-&gt;next = <span class="kw">nullptr</span>
+move back: temp = temp-&gt;prev
+
+<span class="cmt">// CIRCULAR</span>
+last-&gt;next = Head
+traverse: <span class="kw">do</span> { ... } <span class="kw">while</span>(temp != Head)
+
+<span class="cmt">// FIND LAST — CIRCULAR</span>
+<span class="kw">while</span>(temp-&gt;next != Head)
+    temp = temp-&gt;next;
+
+<span class="cmt">// FIND SECOND-LAST — CIRCULAR</span>
+<span class="kw">while</span>(temp-&gt;next-&gt;next != Head)
+    temp = temp-&gt;next;
+
+<span class="cmt">// INSERT AFTER temp</span>
+newNode-&gt;next = temp-&gt;next;
+temp-&gt;next = newNode;
+
+<span class="cmt">// DELETE AFTER temp</span>
+del = temp-&gt;next;
+temp-&gt;next = del-&gt;next;
+delete del;</code></pre>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL CONCEPT MAP
+========================= -->
+
+<section class="section" id="concept-map">
+
+    <div class="section-header">
+        <div class="section-number">★</div>
+        <div class="section-title-wrap">
+            <h2>The Whole Topic in One Picture</h2>
+            <p class="section-description">
+                If you understand this, the three linked lists become much easier.
+            </p>
+        </div>
+    </div>
+
+    <div class="diagram">
+<pre>
+                    LINKED LISTS
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+       SINGLY          DOUBLY        CIRCULAR
+          │              │              │
+       next only     prev + next     next only
+          │              │              │
+     last → NULL    last → NULL     last → HEAD
+          │              │              │
+     forward only   forward/back    forward only
+          │              │              │
+    stop at NULL    stop at NULL    stop at HEAD
+          │              │              │
+          └──────────────┼──────────────┘
+                         │
+                   CORE OPERATIONS
+                         │
+       ┌─────────┬───────┼────────┬──────────┐
+       │         │       │        │          │
+    Insert     Delete  Search  Traverse   Update
+       │         │       │        │          │
+     First      First   key     forward     data
+     End        End     value   backward*   only
+     Middle     Middle          (*doubly)
+</pre>
+    </div>
+
+    <div class="box tip">
+        <div class="box-title">Final Exam Strategy</div>
+        <p>
+            Do not memorize three completely different programs.
+            Learn one basic singly linked list first. Then remember:
+            <strong>Doubly = add prev</strong>,
+            <strong>Circular = replace NULL with Head</strong>.
+            Most of the operations are just pointer-arrow changes.
+        </p>
+    </div>
+
+</section>
+
+
+<footer class="footer">
+    DSA • Linked Lists • C++ &nbsp;|&nbsp; Singly + Doubly + Circular &nbsp;|&nbsp; Pointer-first revision &nbsp;|&nbsp; Made By: VoidEx
+</footer>
+
+</main>
+
+
+<script>
+/* =========================
+   SMOOTH SCROLL
+========================= */
+
+document.querySelectorAll('.nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+
+/* =========================
+   ACTIVE SIDEBAR SECTION
+========================= */
+
+const navLinks = [...document.querySelectorAll('.nav a')];
+
+const sectionIds = [
+    'mental-model',
+    'singly',
+    'singly-functions',
+    'position-loops',
+    'doubly',
+    'doubly-functions',
+    'circular',
+    'circular-functions',
+    'loops',
+    'comparison',
+    'dry-runs',
+    'teacher-code',
+    'traps',
+    'quick-reference',
+    'concept-map'
+];
+
+const sections = sectionIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+const linkMap = new Map();
+
+navLinks.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    linkMap.set(id, link);
+});
+
+const observer = new IntersectionObserver(
+    entries => {
+        const visible = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (!visible.length) return;
+
+        const activeId = visible[0].target.id;
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        const activeLink = linkMap.get(activeId);
+
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+
+        /* If a subsection is active, keep its parent topic visually available. */
+        const parentMap = {
+            'singly-functions': 'singly',
+            'position-loops': 'singly',
+            'doubly-functions': 'doubly',
+            'circular-functions': 'circular',
+            'teacher-code': 'circular'
+        };
+
+        const parentId = parentMap[activeId];
+
+        if (parentId && linkMap.get(parentId)) {
+            linkMap.get(parentId).classList.add('active');
+        }
+    },
+    {
+        root: null,
+        rootMargin: '-18% 0px -65% 0px',
+        threshold: [0, 0.15, 0.4, 0.7]
+    }
+);
+
+sections.forEach(section => observer.observe(section));
+
+
+/* =========================
+   FALLBACK ACTIVE STATE
+========================= */
+
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY + 160;
+
+    let current = sections[0];
+
+    sections.forEach(section => {
+        if (section.offsetTop <= scrollPosition) {
+            current = section;
+        }
+    });
+
+    if (current) {
+        const id = current.id;
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        if (linkMap.get(id)) {
+            linkMap.get(id).classList.add('active');
+        }
+
+        const parentMap = {
+            'singly-functions': 'singly',
+            'position-loops': 'singly',
+            'doubly-functions': 'doubly',
+            'circular-functions': 'circular',
+            'teacher-code': 'circular'
+        };
+
+        if (parentMap[id] && linkMap.get(parentMap[id])) {
+            linkMap.get(parentMap[id]).classList.add('active');
+        }
+    }
+}, { passive: true });
+</script>
+
+</body>
+</html>

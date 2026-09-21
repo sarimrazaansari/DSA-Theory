@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CS-2001 Data Structures Assignment 01 complete standalone study sheet with C++ solutions." />
+  <title>CS-2001 DSA Assignment 01 Study Sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --surface: #111318;
+      --surface-2: #151922;
+      --border: #252a35;
+      --text: #d4dae8;
+      --muted: #8b95aa;
+      --gold: #e8c56d;
+      --cyan: #5fb3ff;
+      --red: #ff6b6b;
+      --mint: #6bffb8;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      --sidebar: 260px;
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 2%, rgba(95, 179, 255, 0.13), transparent 34rem),
+        radial-gradient(circle at 84% 18%, rgba(232, 197, 109, 0.10), transparent 36rem),
+        linear-gradient(180deg, var(--bg), #08090c);
+      line-height: 1.65;
+    }
+
+    ::selection {
+      background: rgba(232, 197, 109, 0.28);
+      color: #ffffff;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
+      padding: 24px 18px;
+      background: rgba(17, 19, 24, 0.9);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      overflow-y: auto;
+      z-index: 30;
+    }
+
+    .course-logo {
+      display: grid;
+      gap: 6px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(232, 197, 109, 0.13), rgba(95, 179, 255, 0.06));
+      box-shadow: var(--shadow);
+    }
+
+    .course-logo strong {
+      font-family: "Playfair Display", serif;
+      font-size: 1.45rem;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    .course-logo span,
+    .course-logo small {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .side-title {
+      margin: 22px 0 10px;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+    }
+
+    .weight-cloud,
+    .tag-row,
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-link {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      color: var(--muted);
+      transition: 0.2s ease;
+      font-size: 0.92rem;
+    }
+
+    .nav-link span {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--cyan);
+      font-size: 0.78rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text);
+      border-color: rgba(95, 179, 255, 0.35);
+      background: rgba(95, 179, 255, 0.08);
+      transform: translateX(2px);
+    }
+
+    .shell {
+      margin-left: var(--sidebar);
+      min-height: 100vh;
+      padding: 44px clamp(20px, 4vw, 64px) 80px;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(30px, 6vw, 74px);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(17, 19, 24, 0.96), rgba(21, 25, 34, 0.82)),
+        radial-gradient(circle at 20% 20%, rgba(232, 197, 109, 0.16), transparent 24rem);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      top: -140px;
+      right: -120px;
+      background: radial-gradient(circle, rgba(95, 179, 255, 0.2), transparent 68%);
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(232, 197, 109, 0.28);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(232, 197, 109, 0.08);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      line-height: 1.05;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin-top: 18px;
+      font-size: clamp(3rem, 7vw, 6.8rem);
+      letter-spacing: -0.055em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      background: rgba(255, 255, 255, 0.03);
+      white-space: nowrap;
+    }
+
+    .pill.gold {
+      color: var(--gold);
+      border-color: rgba(232, 197, 109, 0.34);
+      background: rgba(232, 197, 109, 0.08);
+    }
+
+    .pill.cyan {
+      color: var(--cyan);
+      border-color: rgba(95, 179, 255, 0.34);
+      background: rgba(95, 179, 255, 0.08);
+    }
+
+    .pill.red {
+      color: var(--red);
+      border-color: rgba(255, 107, 107, 0.34);
+      background: rgba(255, 107, 107, 0.08);
+    }
+
+    .pill.mint {
+      color: var(--mint);
+      border-color: rgba(107, 255, 184, 0.34);
+      background: rgba(107, 255, 184, 0.08);
+    }
+
+    .overview {
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(17, 19, 24, 0.82);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(21, 25, 34, 0.72);
+    }
+
+    .panel-header h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      text-align: left;
+      padding: 13px 16px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--gold);
+      background: #111318;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(37, 42, 53, 0.72);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background: rgba(95, 179, 255, 0.04);
+    }
+
+    main {
+      display: grid;
+      gap: 30px;
+    }
+
+    .section-card {
+      scroll-margin-top: 24px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(17, 19, 24, 0.93), rgba(13, 15, 20, 0.96));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 28px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(232, 197, 109, 0.08), rgba(95, 179, 255, 0.05));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.9rem, 4vw, 3.4rem);
+      letter-spacing: -0.03em;
+    }
+
+    .tag-row {
+      justify-content: flex-end;
+      max-width: 430px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px 28px 0;
+    }
+
+    .box {
+      margin: 18px 28px;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-left-width: 5px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+    }
+
+    .mini-grid .box {
+      margin: 0;
+    }
+
+    .box strong {
+      color: var(--text);
+    }
+
+    .box.danger {
+      border-left-color: var(--red);
+      background: rgba(255, 107, 107, 0.055);
+    }
+
+    .box.warn {
+      border-left-color: var(--gold);
+      background: rgba(232, 197, 109, 0.055);
+    }
+
+    .box.tip {
+      border-left-color: var(--mint);
+      background: rgba(107, 255, 184, 0.045);
+    }
+
+    .box.info {
+      border-left-color: var(--cyan);
+      background: rgba(95, 179, 255, 0.05);
+    }
+
+    pre {
+      position: relative;
+      margin: 24px 28px 30px;
+      padding: 54px 18px 18px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #080a0e;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    pre::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 14px;
+      top: 12px;
+      padding: 6px 10px;
+      border: 1px solid rgba(95, 179, 255, 0.25);
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(95, 179, 255, 0.07);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.62;
+      color: #d4dae8;
+      white-space: pre;
+      tab-size: 4;
+    }
+
+    .kw {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .ty {
+      color: var(--mint);
+      font-weight: 700;
+    }
+
+    .fn {
+      color: var(--gold);
+    }
+
+    .str {
+      color: #ffb4a8;
+    }
+
+    .cmt {
+      color: #6f7a91;
+      font-style: italic;
+    }
+
+    .num {
+      color: #c9a6ff;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(17, 19, 24, 0.72);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none;
+      }
+
+      .shell {
+        margin-left: 0;
+        padding: 22px 14px 60px;
+      }
+
+      .hero {
+        border-radius: 24px;
+        padding: 26px;
+      }
+
+      .section-head {
+        display: grid;
+        padding: 22px;
+      }
+
+      .tag-row {
+        justify-content: flex-start;
+      }
+
+      .mini-grid {
+        grid-template-columns: 1fr;
+        padding: 18px 18px 0;
+      }
+
+      .box {
+        margin: 16px 18px;
+      }
+
+      pre {
+        margin: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Study sheet navigation">
+    <div class="course-logo">
+      <strong>CS-2001</strong>
+      <span>Data Structures · Fall 2026</span>
+      <small>Assignment 01 Complete Answers</small>
+    </div>
+
+    <div class="side-title">Syllabus Weight Tags</div>
+    <div class="weight-cloud">
+      <span class="pill gold">Sorting 30%</span>
+      <span class="pill cyan">Linked Lists 40%</span>
+      <span class="pill mint">Stacks / Queues 30%</span>
+      <span class="pill red">No STL</span>
+    </div>
+
+    <div class="side-title">Jump Links</div>
+    <nav class="nav-list" id="sidebarLinks"></nav>
+  </aside>
+
+  <div class="shell">
+    <header class="hero">
+      <span class="kicker">DSA Assignment 01 · Complete C++ Study Sheet</span>
+      <h1>Question-wise Code Answers</h1>
+      <p>This standalone dark-mode study sheet organizes every task by question heading, data-structure concept, exam priority tag, edge-case notes, and complete C++ answer code.</p>
+      <div class="hero-badges">
+        <span class="pill gold">Maximum Marks: 100</span>
+        <span class="pill cyan">Submission: Google Classroom</span>
+        <span class="pill red">Hand-written scan required</span>
+        <span class="pill mint">Practice + Rewrite</span>
+      </div>
+    </header>
+
+    <section class="overview" aria-labelledby="overviewTitle">
+      <div class="panel-header">
+        <h2 id="overviewTitle">At-a-glance Comparison</h2>
+        <span class="pill cyan">10 Questions</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Primary Concept</th>
+              <th>Topic Area</th>
+              <th>Exam Tag</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody id="overviewRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <main id="content"></main>
+
+    <p class="footer-note">Important: the assignment instructions state that plagiarism is not tolerated and that a scan copy of the hand-written assignment must be uploaded/submitted. Use this sheet for understanding, practice, and rewriting the logic in your own hand. Source basis: :contentReference[oaicite:0]{index=0}</p>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const studyItems = [
+      {
+        q: "01",
+        title: "Question 01 — Fiber Optic Cable Lengths",
+        short: "Fiber Optic Cable Lengths",
+        concept: "Insertion Sort",
+        topic: "Sorting / Array",
+        term: "Midterm",
+        priority: "High",
+        focus: "Identify insertion sort and implement it using a temporary variable and shifting, not repeated swapping.",
+        boxes: [
+          ["info", "Algorithm identity", "The scenario describes insertion sort: one item is temporarily stored, larger sorted values shift right, then the temporary value is inserted."],
+          ["danger", "Common mistake", "Do not use sort(), a second array, or repeated swapping; the assignment expects shifting."]
+        ]
+      },
+      {
+        q: "02",
+        title: "Question 02 — Library Shelf Capacity Manager",
+        short: "Library Shelf Capacity Manager",
+        concept: "Dynamic Array + Insertion Sort",
+        topic: "Dynamic Memory",
+        term: "Midterm",
+        priority: "High",
+        focus: "Create a larger dynamic array, insert at a user position, then manually sort the capacities.",
+        boxes: [
+          ["info", "Core structure", "The array must be dynamically allocated with new/delete, and insertion must create a new array of size n + 1."],
+          ["warn", "Position indexing", "This solution accepts insertion positions from 0 to n, matching the sample input."]
+        ]
+      },
+      {
+        q: "03",
+        title: "Question 03 — Warehouse Package Weights",
+        short: "Warehouse Package Weights",
+        concept: "Comb Sort",
+        topic: "Gap-Based Sorting",
+        term: "Midterm",
+        priority: "Medium",
+        focus: "Use gap-based comparisons with shrink factor 1.3 until gap becomes 1 and no swaps occur.",
+        boxes: [
+          ["info", "Algorithm identity", "This is comb sort because comparisons are made across a gap that shrinks by 1.3."],
+          ["tip", "Pass output", "Print the gap and array after every pass so the trace is visible for checking."]
+        ]
+      },
+      {
+        q: "04",
+        title: "Question 04 — KFC Circular Rider System",
+        short: "KFC Circular Rider System",
+        concept: "Circular Singly Linked List",
+        topic: "Linked List",
+        term: "Final",
+        priority: "Very High",
+        focus: "Maintain circular links after insertions, deletions, search, update, display, count, and traversal from a selected rider.",
+        boxes: [
+          ["danger", "Circular link trap", "After every insertion or deletion, the last node must still point back to head."],
+          ["tip", "Single node case", "Always handle the case where head->next == head separately before deleting."]
+        ]
+      },
+      {
+        q: "05",
+        title: "Question 05 — Beauty Branch Product Merge",
+        short: "Beauty Branch Product Merge",
+        concept: "Sorted Singly Linked Lists",
+        topic: "Linked List Merge",
+        term: "Final",
+        priority: "Very High",
+        focus: "Create two sorted product lists, merge by pointer adjustment, remove duplicate Product IDs by retaining the lower price.",
+        boxes: [
+          ["danger", "Duplicate Product ID rule", "When the same Product ID appears in both lists, retain the node with the lower price and delete the other node."],
+          ["tip", "Pointer-only merge", "No arrays or built-in merge functions are used; existing next pointers are adjusted directly."]
+        ]
+      },
+      {
+        q: "06",
+        title: "Question 06 — Music Playlist Manager",
+        short: "Music Playlist Manager",
+        concept: "Constrained Singly Linked List",
+        topic: "Linked List Rules",
+        term: "Final",
+        priority: "Very High",
+        focus: "Support insert, delete, and search while enforcing genre adjacency and three-song duration limits.",
+        boxes: [
+          ["warn", "Constraint handling", "Insertion may move to the next valid position when genre or duration rules are violated."],
+          ["danger", "Explicit song deletion", "Explicit songs cannot be deleted directly; they must first be unmarked as explicit."]
+        ]
+      },
+      {
+        q: "07",
+        title: "Question 07 — Turn-Based Battle Simulator",
+        short: "Turn-Based Battle Simulator",
+        concept: "Doubly Linked Lists",
+        topic: "Game Simulation",
+        term: "Final",
+        priority: "Very High",
+        focus: "Manage hero and enemy teams using doubly linked lists, apply random damage, delete defeated members, and decide the winner.",
+        boxes: [
+          ["info", "Battle rules", "Hero team attacks first in each round, followed by enemy counterattack if the enemy team still exists."],
+          ["warn", "Display rule", "During play, only remaining names should be displayed, not health or attack power."]
+        ]
+      },
+      {
+        q: "08",
+        title: "Question 08 — Undo Battle",
+        short: "Undo Battle",
+        concept: "Linked-List Stack",
+        topic: "Stack",
+        term: "Final",
+        priority: "High",
+        focus: "Store valid movements in a custom linked-list stack and undo the most recent valid movement.",
+        boxes: [
+          ["danger", "Invalid movement", "A left move from position 0 is invalid and must not be pushed into the stack."],
+          ["tip", "Undo logic", "Store the previous position with each valid movement so undo can restore it directly."]
+        ]
+      },
+      {
+        q: "09",
+        title: "Question 09 — Emergency Room Game",
+        short: "Emergency Room Game",
+        concept: "Array Queues",
+        topic: "Priority FIFO Queues",
+        term: "Final",
+        priority: "High",
+        focus: "Use multiple normal array queues to treat Critical, Serious, then Normal patients while preserving FIFO within each severity.",
+        boxes: [
+          ["info", "Priority without priority_queue", "Three normal array queues preserve FIFO while enforcing severity priority."],
+          ["warn", "Treatment order", "Critical queue is checked first, then Serious, then Normal."]
+        ]
+      },
+      {
+        q: "10",
+        title: "Question 10 — Treasure Battle",
+        short: "Treasure Battle",
+        concept: "Array Queue + Per-Player History Stack",
+        topic: "Queue + Stack",
+        term: "Final",
+        priority: "Very High",
+        focus: "Process turn-based commands with player queue and independent action history for undo, using arrays only.",
+        boxes: [
+          ["danger", "Independent undo history", "Each player needs their own action history stack; a global stack would give incorrect results."],
+          ["tip", "Round-robin queue", "After one command, an active player goes to the rear; eliminated players do not return."]
+        ]
+      }
+    ];
+
+    const htmlEscape = (value) =>
+      String(value).replace(/[&<>"]/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;"
+      }[char]));
+
+    const classForTerm = (term) => term === "Final" ? "cyan" : "gold";
+
+    const sidebarLinks = document.getElementById("sidebarLinks");
+    const overviewRows = document.getElementById("overviewRows");
+    const content = document.getElementById("content");
+
+    studyItems.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = `#q${item.q}`;
+      link.className = "nav-link";
+      link.innerHTML = `<span>Q${item.q}</span>${htmlEscape(item.short)}`;
+      sidebarLinks.appendChild(link);
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>Q${item.q}</td>
+        <td>${htmlEscape(item.concept)}</td>
+        <td>${htmlEscape(item.topic)}</td>
+        <td><span class="pill ${classForTerm(item.term)}">${htmlEscape(item.term)}</span></td>
+        <td><span class="pill gold">${htmlEscape(item.priority)}</span></td>
+      `;
+      overviewRows.appendChild(row);
+
+      const section = document.createElement("section");
+      section.id = `q${item.q}`;
+      section.className = "section-card";
+      section.innerHTML = `
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Question ${item.q}</span>
+            <h2>${htmlEscape(item.title)}</h2>
+          </div>
+          <div class="tag-row">
+            <span class="pill ${classForTerm(item.term)}">${htmlEscape(item.term)}</span>
+            <span class="pill gold">${htmlEscape(item.priority)} Priority</span>
+            <span class="pill mint">${htmlEscape(item.topic)}</span>
+          </div>
+        </div>
+        <div class="mini-grid">
+          <div class="box info"><strong>Required concept:</strong> ${htmlEscape(item.concept)}</div>
+          <div class="box tip"><strong>Study focus:</strong> ${htmlEscape(item.focus)}</div>
+        </div>
+        ${item.boxes.map(([type, heading, text]) =>
+          `<div class="box ${type}"><strong>${htmlEscape(heading)}:</strong> ${htmlEscape(text)}</div>`
+        ).join("")}
+        <pre data-label="C++ complete answer"><code class="language-cpp"></code></pre>
+      `;
+      content.appendChild(section);
+    });
+
+    const highlightCpp = (source) => {
+      const tokens = [];
+
+      const keep = (className, value) => {
+        const key = `___TOKEN_${tokens.length}___`;
+        tokens.push([key, `<span class="${className}">${htmlEscape(value)}</span>`]);
+        return key;
+      };
+
+      let work = source
+        .replace(/\/\/[^\n]*/g, (match) => keep("cmt", match))
+        .replace(/\/\*[\s\S]*?\*\//g, (match) => keep("cmt", match))
+        .replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, (match) => keep("str", match));
+
+      work = htmlEscape(work)
+        .replace(/\b(class|struct|private|public|protected|return|if|else|for|while|do|switch|case|break|continue|const|void|using|namespace|new|delete|true|false|NULL|include|define)\b/g, '<span class="kw">$1</span>')
+        .replace(/\b(int|double|float|char|bool|string|long|short|unsigned|signed|size_t)\b/g, '<span class="ty">$1</span>')
+        .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
+        .replace(/\b([A-Za-z_]\w*)\s*(?=\()/g, '<span class="fn">$1</span>');
+
+      tokens.forEach(([key, value]) => {
+        work = work.replaceAll(key, value);
+      });
+
+      return work;
+    };
+
+    studyItems.forEach((item) => {
+      const sourceBlock = document.getElementById(`cpp-q${item.q}`);
+      const codeBlock = document.querySelector(`#q${item.q} code`);
+
+      if (!sourceBlock || !codeBlock) {
+        console.warn(`Missing source or display block for Q${item.q}`);
+        return;
+      }
+
+      codeBlock.innerHTML = highlightCpp(sourceBlock.textContent.trim());
+    });
+
+    const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    const setActive = (id) => {
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    }, {
+      rootMargin: "-35% 0px -55% 0px",
+      threshold: 0
+    });
+
+    document.querySelectorAll(".section-card").forEach((section) => {
+      observer.observe(section);
+    });
+
+    setActive("q01");
+  });
+</script>
+
+  <script type="text/plain" id="cpp-q01">
+#include <iostream>
+using namespace std;
+
+void displayArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of cable lengths: ";
+    cin >> n;
+
+    int *arr = new int[n];
+
+    cout << "Enter cable lengths: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    cout << "Original array: ";
+    displayArray(arr, n);
+
+    // Insertion Sort using temporary variable and shifting
+    for (int i = 1; i < n; i++) {
+        int temp = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > temp) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = temp;
+
+        cout << "After iteration " << i << ": ";
+        displayArray(arr, n);
+    }
+
+    cout << "Final sorted array: ";
+    displayArray(arr, n);
+
+    delete[] arr;
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q02">
+#include <iostream>
+using namespace std;
+
+void displayArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int temp = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > temp) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = temp;
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter number of shelves: ";
+    cin >> n;
+
+    int *shelves = new int[n];
+
+    cout << "Enter book capacity of each shelf:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> shelves[i];
+    }
+
+    cout << "Original shelf capacities: ";
+    displayArray(shelves, n);
+
+    int position, newCapacity;
+    cout << "Enter position to add the new shelf (0 to " << n << "): ";
+    cin >> position;
+
+    if (position < 0 || position > n) {
+        cout << "Invalid position." << endl;
+        delete[] shelves;
+        return 0;
+    }
+
+    cout << "Enter capacity of the new shelf: ";
+    cin >> newCapacity;
+
+    int *newShelves = new int[n + 1];
+
+    for (int i = 0; i < position; i++) {
+        newShelves[i] = shelves[i];
+    }
+
+    newShelves[position] = newCapacity;
+
+    for (int i = position; i < n; i++) {
+        newShelves[i + 1] = shelves[i];
+    }
+
+    delete[] shelves;
+    shelves = newShelves;
+    n++;
+
+    cout << "Shelves after adding new shelf: ";
+    displayArray(shelves, n);
+
+    insertionSort(shelves, n);
+
+    cout << "Shelves after sorting: ";
+    displayArray(shelves, n);
+
+    delete[] shelves;
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q03">
+#include <iostream>
+using namespace std;
+
+void displayArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int nextGap(int gap) {
+    gap = (gap * 10) / 13;   // same as dividing by shrink factor 1.3
+    if (gap < 1) {
+        gap = 1;
+    }
+    return gap;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of package weights: ";
+    cin >> n;
+
+    int *arr = new int[n];
+
+    cout << "Enter package weights: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    cout << "Original array: ";
+    displayArray(arr, n);
+
+    // Comb Sort using gap-based comparison
+    int gap = n;
+    bool swapped = true;
+    int pass = 1;
+
+    while (gap != 1 || swapped == true) {
+        gap = nextGap(gap);
+        swapped = false;
+
+        for (int i = 0; i + gap < n; i++) {
+            if (arr[i] > arr[i + gap]) {
+                int temp = arr[i];
+                arr[i] = arr[i + gap];
+                arr[i + gap] = temp;
+                swapped = true;
+            }
+        }
+
+        cout << "Pass " << pass << " using gap " << gap << ": ";
+        displayArray(arr, n);
+        pass++;
+    }
+
+    cout << "Final sorted array: ";
+    displayArray(arr, n);
+
+    delete[] arr;
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q04">
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Rider {
+    int id;
+    string name;
+    int orders;
+    Rider *next;
+};
+
+class CircularRiderList {
+private:
+    Rider *head;
+
+    Rider* createNode(int id, string name, int orders) {
+        Rider *n = new Rider;
+        n->id = id;
+        n->name = name;
+        n->orders = orders;
+        n->next = NULL;
+        return n;
+    }
+
+    Rider* getTail() {
+        if (head == NULL) return NULL;
+        Rider *temp = head;
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+        return temp;
+    }
+
+public:
+    CircularRiderList() {
+        head = NULL;
+    }
+
+    int countRiders() {
+        if (head == NULL) return 0;
+        int count = 0;
+        Rider *temp = head;
+        do {
+            count++;
+            temp = temp->next;
+        } while (temp != head);
+        return count;
+    }
+
+    void insertBeginning(int id, string name, int orders) {
+        Rider *n = createNode(id, name, orders);
+
+        if (head == NULL) {
+            head = n;
+            n->next = head;
+            return;
+        }
+
+        Rider *tail = getTail();
+        n->next = head;
+        tail->next = n;
+        head = n;
+    }
+
+    void insertEnd(int id, string name, int orders) {
+        Rider *n = createNode(id, name, orders);
+
+        if (head == NULL) {
+            head = n;
+            n->next = head;
+            return;
+        }
+
+        Rider *tail = getTail();
+        tail->next = n;
+        n->next = head;
+    }
+
+    void insertAtPosition(int pos, int id, string name, int orders) {
+        int total = countRiders();
+        if (pos < 1 || pos > total + 1) {
+            cout << "Invalid position." << endl;
+            return;
+        }
+        if (pos == 1) {
+            insertBeginning(id, name, orders);
+            return;
+        }
+        if (pos == total + 1) {
+            insertEnd(id, name, orders);
+            return;
+        }
+
+        Rider *n = createNode(id, name, orders);
+        Rider *temp = head;
+        for (int i = 1; i < pos - 1; i++) {
+            temp = temp->next;
+        }
+        n->next = temp->next;
+        temp->next = n;
+    }
+
+    void deleteBeginning() {
+        if (head == NULL) {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        if (head->next == head) {
+            delete head;
+            head = NULL;
+            return;
+        }
+
+        Rider *tail = getTail();
+        Rider *oldHead = head;
+        head = head->next;
+        tail->next = head;
+        delete oldHead;
+    }
+
+    void deleteEnd() {
+        if (head == NULL) {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        if (head->next == head) {
+            delete head;
+            head = NULL;
+            return;
+        }
+
+        Rider *temp = head;
+        while (temp->next->next != head) {
+            temp = temp->next;
+        }
+        Rider *last = temp->next;
+        temp->next = head;
+        delete last;
+    }
+
+    void deleteAtPosition(int pos) {
+        int total = countRiders();
+        if (pos < 1 || pos > total) {
+            cout << "Invalid position." << endl;
+            return;
+        }
+        if (pos == 1) {
+            deleteBeginning();
+            return;
+        }
+        if (pos == total) {
+            deleteEnd();
+            return;
+        }
+
+        Rider *temp = head;
+        for (int i = 1; i < pos - 1; i++) {
+            temp = temp->next;
+        }
+        Rider *del = temp->next;
+        temp->next = del->next;
+        delete del;
+    }
+
+    Rider* searchRider(int id) {
+        if (head == NULL) return NULL;
+
+        Rider *temp = head;
+        do {
+            if (temp->id == id) return temp;
+            temp = temp->next;
+        } while (temp != head);
+
+        return NULL;
+    }
+
+    void updateRider(int id) {
+        Rider *r = searchRider(id);
+        if (r == NULL) {
+            cout << "Rider not found." << endl;
+            return;
+        }
+
+        cout << "Enter new name: ";
+        cin.ignore();
+        getline(cin, r->name);
+        cout << "Enter new number of assigned orders: ";
+        cin >> r->orders;
+        cout << "Rider updated." << endl;
+    }
+
+    void displayAll() {
+        if (head == NULL) {
+            cout << "No riders to display." << endl;
+            return;
+        }
+
+        Rider *temp = head;
+        cout << "Riders list:" << endl;
+        do {
+            cout << "ID: " << temp->id
+                 << ", Name: " << temp->name
+                 << ", Orders: " << temp->orders << endl;
+            temp = temp->next;
+        } while (temp != head);
+    }
+
+    void traverseFromRider(int id) {
+        Rider *start = searchRider(id);
+        if (start == NULL) {
+            cout << "Starting rider not found." << endl;
+            return;
+        }
+
+        Rider *temp = start;
+        cout << "Traversal starting from Rider ID " << id << ":" << endl;
+        do {
+            cout << temp->id << " - " << temp->name << " - Orders: " << temp->orders << endl;
+            temp = temp->next;
+        } while (temp != start);
+    }
+
+    ~CircularRiderList() {
+        while (head != NULL) {
+            deleteBeginning();
+        }
+    }
+};
+
+void inputRider(int &id, string &name, int &orders) {
+    cout << "Enter Rider ID: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Enter Rider Name: ";
+    getline(cin, name);
+    cout << "Enter Number of Assigned Orders: ";
+    cin >> orders;
+}
+
+int main() {
+    CircularRiderList list;
+    int choice;
+
+    do {
+        cout << "\n--- KFC Circular Rider Management ---\n";
+        cout << "1. Insert at beginning\n";
+        cout << "2. Insert at end\n";
+        cout << "3. Insert at position\n";
+        cout << "4. Delete from beginning\n";
+        cout << "5. Delete from end\n";
+        cout << "6. Delete from position\n";
+        cout << "7. Search rider\n";
+        cout << "8. Update rider\n";
+        cout << "9. Display all riders\n";
+        cout << "10. Count riders\n";
+        cout << "11. Traverse from selected rider\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        int id, orders, pos;
+        string name;
+        Rider *found;
+
+        switch (choice) {
+        case 1:
+            inputRider(id, name, orders);
+            list.insertBeginning(id, name, orders);
+            break;
+        case 2:
+            inputRider(id, name, orders);
+            list.insertEnd(id, name, orders);
+            break;
+        case 3:
+            cout << "Enter position: ";
+            cin >> pos;
+            inputRider(id, name, orders);
+            list.insertAtPosition(pos, id, name, orders);
+            break;
+        case 4:
+            list.deleteBeginning();
+            break;
+        case 5:
+            list.deleteEnd();
+            break;
+        case 6:
+            cout << "Enter position: ";
+            cin >> pos;
+            list.deleteAtPosition(pos);
+            break;
+        case 7:
+            cout << "Enter Rider ID to search: ";
+            cin >> id;
+            found = list.searchRider(id);
+            if (found != NULL) {
+                cout << "Found: " << found->id << " - " << found->name
+                     << " - Orders: " << found->orders << endl;
+            } else {
+                cout << "Rider not found." << endl;
+            }
+            break;
+        case 8:
+            cout << "Enter Rider ID to update: ";
+            cin >> id;
+            list.updateRider(id);
+            break;
+        case 9:
+            list.displayAll();
+            break;
+        case 10:
+            cout << "Total riders: " << list.countRiders() << endl;
+            break;
+        case 11:
+            cout << "Enter starting Rider ID: ";
+            cin >> id;
+            list.traverseFromRider(id);
+            break;
+        case 0:
+            cout << "Program ended." << endl;
+            break;
+        default:
+            cout << "Invalid choice." << endl;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q05">
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Product {
+    int id;
+    string name;
+    string category;
+    double price;
+    Product *next;
+};
+
+Product* createProduct(int id, string name, string category, double price) {
+    Product *p = new Product;
+    p->id = id;
+    p->name = name;
+    p->category = category;
+    p->price = price;
+    p->next = NULL;
+    return p;
+}
+
+void insertSorted(Product* &head, int id, string name, string category, double price) {
+    Product *newNode = createProduct(id, name, category, price);
+
+    // If same ID already exists in this branch, keep the lower price product.
+    Product *temp = head;
+    while (temp != NULL) {
+        if (temp->id == id) {
+            if (price < temp->price) {
+                temp->name = name;
+                temp->category = category;
+                temp->price = price;
+            }
+            delete newNode;
+            return;
+        }
+        temp = temp->next;
+    }
+
+    if (head == NULL || id < head->id) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    temp = head;
+    while (temp->next != NULL && temp->next->id < id) {
+        temp = temp->next;
+    }
+
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
+void displayList(Product *head, string title) {
+    cout << "\n" << title << endl;
+    if (head == NULL) {
+        cout << "No products." << endl;
+        return;
+    }
+
+    Product *temp = head;
+    while (temp != NULL) {
+        cout << "ID: " << temp->id
+             << ", Name: " << temp->name
+             << ", Category: " << temp->category
+             << ", Price: " << temp->price << endl;
+        temp = temp->next;
+    }
+}
+
+void addProductFromUser(Product* &head) {
+    int id;
+    string name, category;
+    double price;
+
+    cout << "Enter Product ID: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Enter Product Name: ";
+    getline(cin, name);
+    cout << "Enter Category: ";
+    getline(cin, category);
+    cout << "Enter Price: ";
+    cin >> price;
+
+    insertSorted(head, id, name, category, price);
+}
+
+void appendNode(Product* &head, Product* &tail, Product *node) {
+    node->next = NULL;
+    if (head == NULL) {
+        head = node;
+        tail = node;
+    } else {
+        tail->next = node;
+        tail = node;
+    }
+}
+
+Product* mergeLists(Product *a, Product *b) {
+    Product *merged = NULL;
+    Product *tail = NULL;
+
+    while (a != NULL && b != NULL) {
+        Product *selected = NULL;
+
+        if (a->id < b->id) {
+            selected = a;
+            a = a->next;
+        } else if (b->id < a->id) {
+            selected = b;
+            b = b->next;
+        } else {
+            // Duplicate Product ID: keep lower price product.
+            Product *deleteNode = NULL;
+            if (a->price <= b->price) {
+                selected = a;
+                deleteNode = b;
+            } else {
+                selected = b;
+                deleteNode = a;
+            }
+            a = a->next;
+            b = b->next;
+            delete deleteNode;
+        }
+
+        appendNode(merged, tail, selected);
+    }
+
+    while (a != NULL) {
+        Product *selected = a;
+        a = a->next;
+        appendNode(merged, tail, selected);
+    }
+
+    while (b != NULL) {
+        Product *selected = b;
+        b = b->next;
+        appendNode(merged, tail, selected);
+    }
+
+    return merged;
+}
+
+int countProducts(Product *head) {
+    int count = 0;
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+double totalInventoryValue(Product *head) {
+    double total = 0;
+    while (head != NULL) {
+        total += head->price;
+        head = head->next;
+    }
+    return total;
+}
+
+void deleteList(Product* &head) {
+    while (head != NULL) {
+        Product *temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+int main() {
+    Product *glowCare = NULL;
+    Product *beautyHub = NULL;
+    int n;
+
+    cout << "How many products for GlowCare? ";
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cout << "\nGlowCare Product " << i + 1 << endl;
+        addProductFromUser(glowCare);
+    }
+
+    cout << "\nHow many products for BeautyHub? ";
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cout << "\nBeautyHub Product " << i + 1 << endl;
+        addProductFromUser(beautyHub);
+    }
+
+    displayList(glowCare, "GlowCare Products Before Merge:");
+    displayList(beautyHub, "BeautyHub Products Before Merge:");
+
+    Product *master = mergeLists(glowCare, beautyHub);
+    glowCare = NULL;
+    beautyHub = NULL;
+
+    displayList(master, "Master Product List After Merge:");
+    cout << "\nTotal number of products: " << countProducts(master) << endl;
+    cout << "Total inventory value: " << totalInventoryValue(master) << endl;
+
+    deleteList(master);
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q06">
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Song {
+    string title;
+    string genre;
+    int duration;
+    bool explicitContent;
+};
+
+struct Node {
+    Song data;
+    Node *next;
+};
+
+class Playlist {
+private:
+    Node *head;
+    int operationCount;
+
+    Node* createNode(Song s) {
+        Node *n = new Node;
+        n->data = s;
+        n->next = NULL;
+        return n;
+    }
+
+    Node* getNodeAt(int pos) {
+        Node *temp = head;
+        int index = 1;
+        while (temp != NULL && index < pos) {
+            temp = temp->next;
+            index++;
+        }
+        return temp;
+    }
+
+    bool validateFrom(Node *start) {
+        Node *temp = start;
+        while (temp != NULL && temp->next != NULL) {
+            if (temp->data.genre == temp->next->data.genre) {
+                return false;
+            }
+            temp = temp->next;
+        }
+
+        temp = start;
+        while (temp != NULL && temp->next != NULL && temp->next->next != NULL) {
+            int total = temp->data.duration + temp->next->data.duration + temp->next->next->data.duration;
+            if (total > 600) {
+                return false;
+            }
+            temp = temp->next;
+        }
+
+        return true;
+    }
+
+    bool canInsertAt(int pos, Song s) {
+        int n = length();
+        if (pos < 1 || pos > n + 1) return false;
+
+        Node tempNode;
+        tempNode.data = s;
+        tempNode.next = NULL;
+
+        if (pos == 1) {
+            tempNode.next = head;
+            return validateFrom(&tempNode);
+        }
+
+        Node *prev = getNodeAt(pos - 1);
+        if (prev == NULL) return false;
+
+        Node *oldNext = prev->next;
+        prev->next = &tempNode;
+        tempNode.next = oldNext;
+
+        bool ok = validateFrom(head);
+
+        prev->next = oldNext;
+        tempNode.next = NULL;
+        return ok;
+    }
+
+    void actualInsertAt(int pos, Song s) {
+        Node *n = createNode(s);
+
+        if (pos == 1) {
+            n->next = head;
+            head = n;
+            return;
+        }
+
+        Node *prev = getNodeAt(pos - 1);
+        n->next = prev->next;
+        prev->next = n;
+    }
+
+    void addOperation() {
+        operationCount++;
+        if (operationCount % 3 == 0) {
+            if (validateFrom(head)) {
+                cout << "Constraint check after 3 operations: playlist is valid." << endl;
+            } else {
+                cout << "Constraint check after 3 operations: playlist has constraint issue." << endl;
+            }
+        }
+    }
+
+public:
+    Playlist() {
+        head = NULL;
+        operationCount = 0;
+    }
+
+    int length() {
+        int count = 0;
+        Node *temp = head;
+        while (temp != NULL) {
+            count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+
+    void insertSong(Song s, int desiredPos) {
+        int n = length();
+        if (desiredPos < 1) desiredPos = 1;
+        if (desiredPos > n + 1) desiredPos = n + 1;
+
+        for (int pos = desiredPos; pos <= n + 1; pos++) {
+            if (canInsertAt(pos, s)) {
+                actualInsertAt(pos, s);
+                cout << "Song inserted at position " << pos << "." << endl;
+                addOperation();
+                return;
+            }
+        }
+
+        cout << "Song could not be inserted without violating constraints." << endl;
+        addOperation();
+    }
+
+    void deleteSongAt(int pos) {
+        int n = length();
+        if (pos < 1 || pos > n) {
+            cout << "Invalid position." << endl;
+            addOperation();
+            return;
+        }
+
+        Node *del;
+        if (pos == 1) {
+            del = head;
+        } else {
+            Node *prev = getNodeAt(pos - 1);
+            del = prev->next;
+        }
+
+        if (del->data.explicitContent) {
+            del->data.explicitContent = false;
+            cout << "Song was explicit. It is now marked non-explicit. Delete it again to remove it." << endl;
+            addOperation();
+            return;
+        }
+
+        if (pos == 1) {
+            head = head->next;
+        } else {
+            Node *prev = getNodeAt(pos - 1);
+            prev->next = del->next;
+        }
+        delete del;
+        cout << "Song deleted." << endl;
+        addOperation();
+    }
+
+    void searchSong(string title) {
+        Node *temp = head;
+        int pos = 1;
+        while (temp != NULL) {
+            if (temp->data.title == title) {
+                cout << "Song found at position " << pos << "." << endl;
+                cout << "Title: " << temp->data.title
+                     << ", Genre: " << temp->data.genre
+                     << ", Duration: " << temp->data.duration
+                     << ", Explicit: " << (temp->data.explicitContent ? "Yes" : "No") << endl;
+                addOperation();
+                return;
+            }
+            temp = temp->next;
+            pos++;
+        }
+        cout << "Song not found." << endl;
+        addOperation();
+    }
+
+    void display() {
+        if (head == NULL) {
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+
+        Node *temp = head;
+        int pos = 1;
+        cout << "\nPlaylist:" << endl;
+        while (temp != NULL) {
+            cout << pos << ". " << temp->data.title
+                 << " | Genre: " << temp->data.genre
+                 << " | Duration: " << temp->data.duration
+                 << " | Explicit: " << (temp->data.explicitContent ? "Yes" : "No") << endl;
+            temp = temp->next;
+            pos++;
+        }
+    }
+
+    ~Playlist() {
+        while (head != NULL) {
+            Node *temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+
+Song inputSong() {
+    Song s;
+    char exp;
+
+    cin.ignore();
+    cout << "Enter song title: ";
+    getline(cin, s.title);
+    cout << "Enter genre (pop/rock/jazz/classical/electronic): ";
+    getline(cin, s.genre);
+    cout << "Enter duration in seconds: ";
+    cin >> s.duration;
+    cout << "Explicit content? (y/n): ";
+    cin >> exp;
+    s.explicitContent = (exp == 'y' || exp == 'Y');
+
+    return s;
+}
+
+int main() {
+    Playlist playlist;
+    int choice;
+
+    do {
+        cout << "\n--- Music Playlist Manager ---\n";
+        cout << "1. Insert song\n";
+        cout << "2. Delete song by position\n";
+        cout << "3. Search song by title\n";
+        cout << "4. Display playlist\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            Song s = inputSong();
+            int pos;
+            cout << "Enter desired position: ";
+            cin >> pos;
+            playlist.insertSong(s, pos);
+        } else if (choice == 2) {
+            int pos;
+            cout << "Enter position to delete: ";
+            cin >> pos;
+            playlist.deleteSongAt(pos);
+        } else if (choice == 3) {
+            string title;
+            cin.ignore();
+            cout << "Enter title to search: ";
+            getline(cin, title);
+            playlist.searchSong(title);
+        } else if (choice == 4) {
+            playlist.display();
+        } else if (choice == 0) {
+            cout << "Program ended." << endl;
+        } else {
+            cout << "Invalid choice." << endl;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q07">
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+struct Combatant {
+    string name;
+    int hp;
+    int attack;
+    Combatant *prev;
+    Combatant *next;
+};
+
+class Team {
+private:
+    Combatant *head;
+    Combatant *tail;
+
+public:
+    Team() {
+        head = NULL;
+        tail = NULL;
+    }
+
+    Combatant* createNode(string name, int hp, int attack) {
+        Combatant *n = new Combatant;
+        n->name = name;
+        n->hp = hp;
+        n->attack = attack;
+        n->prev = NULL;
+        n->next = NULL;
+        return n;
+    }
+
+    void addEnd(string name, int hp, int attack) {
+        Combatant *n = createNode(name, hp, attack);
+        if (head == NULL) {
+            head = tail = n;
+            return;
+        }
+        tail->next = n;
+        n->prev = tail;
+        tail = n;
+    }
+
+    bool isEmpty() {
+        return head == NULL;
+    }
+
+    int count() {
+        int c = 0;
+        Combatant *temp = head;
+        while (temp != NULL) {
+            c++;
+            temp = temp->next;
+        }
+        return c;
+    }
+
+    Combatant* getByPosition(int pos) {
+        if (pos < 1) return NULL;
+        int index = 1;
+        Combatant *temp = head;
+        while (temp != NULL) {
+            if (index == pos) return temp;
+            temp = temp->next;
+            index++;
+        }
+        return NULL;
+    }
+
+    Combatant* getByName(string name) {
+        Combatant *temp = head;
+        while (temp != NULL) {
+            if (temp->name == name) return temp;
+            temp = temp->next;
+        }
+        return NULL;
+    }
+
+    void remove(Combatant *node) {
+        if (node == NULL) return;
+
+        if (node == head && node == tail) {
+            head = tail = NULL;
+        } else if (node == head) {
+            head = head->next;
+            head->prev = NULL;
+        } else if (node == tail) {
+            tail = tail->prev;
+            tail->next = NULL;
+        } else {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+        }
+        delete node;
+    }
+
+    int totalHP() {
+        int total = 0;
+        Combatant *temp = head;
+        while (temp != NULL) {
+            total += temp->hp;
+            temp = temp->next;
+        }
+        return total;
+    }
+
+    void displayNames(string title) {
+        cout << title << ": ";
+        if (head == NULL) {
+            cout << "None";
+        }
+        Combatant *temp = head;
+        int pos = 1;
+        while (temp != NULL) {
+            cout << pos << "." << temp->name << "  ";
+            temp = temp->next;
+            pos++;
+        }
+        cout << endl;
+    }
+
+    void displayFull(string title) {
+        cout << "\n" << title << endl;
+        if (head == NULL) {
+            cout << "None" << endl;
+            return;
+        }
+        Combatant *temp = head;
+        while (temp != NULL) {
+            cout << "Name: " << temp->name
+                 << ", HP: " << temp->hp
+                 << ", Attack Power: " << temp->attack << endl;
+            temp = temp->next;
+        }
+    }
+
+    ~Team() {
+        while (head != NULL) {
+            Combatant *temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+
+void performAttack(Team &attackers, Team &targets, string attackerTitle, string targetTitle) {
+    int attackerPos, targetPos;
+    Combatant *attacker = NULL;
+    Combatant *target = NULL;
+
+    while (attacker == NULL) {
+        attackers.displayNames(attackerTitle);
+        cout << "Choose attacker position: ";
+        cin >> attackerPos;
+        attacker = attackers.getByPosition(attackerPos);
+        if (attacker == NULL) cout << "Invalid attacker. Try again." << endl;
+    }
+
+    while (target == NULL) {
+        targets.displayNames(targetTitle);
+        cout << "Choose target position: ";
+        cin >> targetPos;
+        target = targets.getByPosition(targetPos);
+        if (target == NULL) cout << "Invalid target. Try again." << endl;
+    }
+
+    int randomValue = (rand() % 3) + 1;
+    int damage = attacker->attack * randomValue;
+    cout << attacker->name << " attacks " << target->name << "." << endl;
+
+    target->hp -= damage;
+
+    if (target->hp <= 0) {
+        cout << target->name << " is removed from battle." << endl;
+        targets.remove(target);
+    }
+}
+
+int main() {
+    srand((unsigned int)time(0));
+
+    Team heroes;
+    Team enemies;
+
+    // HP is between 1 and 70. Attack power is between 1 and 5.
+    heroes.addEnd("Archer", 60, 4);
+    heroes.addEnd("Knight", 70, 3);
+    heroes.addEnd("Mage", 45, 5);
+    heroes.addEnd("Healer", 50, 2);
+    heroes.addEnd("Rogue", 55, 4);
+
+    enemies.addEnd("Goblin", 40, 3);
+    enemies.addEnd("Orc", 65, 4);
+    enemies.addEnd("Troll", 70, 3);
+    enemies.addEnd("Vampire", 55, 5);
+    enemies.addEnd("Dragonling", 60, 4);
+
+    int maxRounds;
+    cout << "Enter fixed number of rounds (minimum 10): ";
+    cin >> maxRounds;
+    if (maxRounds < 10) maxRounds = 10;
+
+    int round = 1;
+    while (round <= maxRounds && !heroes.isEmpty() && !enemies.isEmpty()) {
+        cout << "\n========== Round " << round << " ==========" << endl;
+
+        cout << "Hero turn" << endl;
+        performAttack(heroes, enemies, "Heroes", "Enemies");
+        heroes.displayNames("Remaining Heroes");
+        enemies.displayNames("Remaining Enemies");
+
+        if (enemies.isEmpty()) break;
+
+        cout << "\nEnemy turn" << endl;
+        performAttack(enemies, heroes, "Enemies", "Heroes");
+        heroes.displayNames("Remaining Heroes");
+        enemies.displayNames("Remaining Enemies");
+
+        round++;
+    }
+
+    cout << "\n========== Game Result ==========" << endl;
+
+    if (heroes.isEmpty() && enemies.isEmpty()) {
+        cout << "Match draw. Both teams were eliminated." << endl;
+    } else if (enemies.isEmpty()) {
+        cout << "Heroes win!" << endl;
+        heroes.displayFull("Surviving Heroes:");
+    } else if (heroes.isEmpty()) {
+        cout << "Enemies win!" << endl;
+        enemies.displayFull("Surviving Enemies:");
+    } else {
+        int heroHP = heroes.totalHP();
+        int enemyHP = enemies.totalHP();
+
+        cout << "Fixed rounds completed." << endl;
+        cout << "Total Hero HP: " << heroHP << endl;
+        cout << "Total Enemy HP: " << enemyHP << endl;
+
+        if (heroHP > enemyHP) {
+            cout << "Heroes win by total health points!" << endl;
+            heroes.displayFull("Surviving Heroes:");
+        } else if (enemyHP > heroHP) {
+            cout << "Enemies win by total health points!" << endl;
+            enemies.displayFull("Surviving Enemies:");
+        } else {
+            cout << "Match draw." << endl;
+            heroes.displayFull("Remaining Heroes:");
+            enemies.displayFull("Remaining Enemies:");
+        }
+    }
+
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q08">
+#include <iostream>
+using namespace std;
+
+struct MoveNode {
+    char command;
+    int previousPosition;
+    MoveNode *next;
+};
+
+class LinkedStack {
+private:
+    MoveNode *topNode;
+
+public:
+    LinkedStack() {
+        topNode = NULL;
+    }
+
+    bool isEmpty() {
+        return topNode == NULL;
+    }
+
+    void push(char command, int previousPosition) {
+        MoveNode *n = new MoveNode;
+        n->command = command;
+        n->previousPosition = previousPosition;
+        n->next = topNode;
+        topNode = n;
+    }
+
+    bool pop(int &previousPosition) {
+        if (isEmpty()) return false;
+
+        MoveNode *temp = topNode;
+        previousPosition = temp->previousPosition;
+        topNode = topNode->next;
+        delete temp;
+        return true;
+    }
+
+    void display() {
+        if (topNode == NULL) {
+            cout << "Stack is empty." << endl;
+            return;
+        }
+
+        cout << "Remaining stack elements from top to bottom: ";
+        MoveNode *temp = topNode;
+        while (temp != NULL) {
+            cout << temp->command << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    ~LinkedStack() {
+        int oldPos;
+        while (pop(oldPos)) {
+        }
+    }
+};
+
+int main() {
+    LinkedStack stack;
+    int n;
+    int position = 0;
+    int successfulMoves = 0;
+    int successfulUndos = 0;
+
+    cout << "Enter number of commands: ";
+    cin >> n;
+
+    cout << "Enter commands (R, L, J, B): ";
+    for (int i = 0; i < n; i++) {
+        char cmd;
+        cin >> cmd;
+
+        if (cmd == 'R') {
+            int oldPosition = position;
+            position = position + 1;
+            stack.push(cmd, oldPosition);
+            successfulMoves++;
+        } else if (cmd == 'L') {
+            if (position - 1 >= 0) {
+                int oldPosition = position;
+                position = position - 1;
+                stack.push(cmd, oldPosition);
+                successfulMoves++;
+            }
+        } else if (cmd == 'J') {
+            int oldPosition = position;
+            position = position + 2;
+            stack.push(cmd, oldPosition);
+            successfulMoves++;
+        } else if (cmd == 'B') {
+            int previousPosition;
+            if (stack.pop(previousPosition)) {
+                position = previousPosition;
+                successfulUndos++;
+            }
+        } else {
+            cout << "Invalid command ignored: " << cmd << endl;
+        }
+    }
+
+    cout << "\nFinal position: " << position << endl;
+    cout << "Total successful movements: " << successfulMoves << endl;
+    cout << "Total successful Undo operations: " << successfulUndos << endl;
+    stack.display();
+
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q09">
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 1000;
+
+struct Patient {
+    int id;
+    int severity;
+};
+
+class ArrayQueue {
+private:
+    Patient arr[MAX_SIZE];
+    int frontIndex;
+    int rearIndex;
+    int total;
+
+public:
+    ArrayQueue() {
+        frontIndex = 0;
+        rearIndex = -1;
+        total = 0;
+    }
+
+    bool isEmpty() {
+        return total == 0;
+    }
+
+    bool isFull() {
+        return total == MAX_SIZE;
+    }
+
+    void enqueue(Patient p) {
+        if (isFull()) {
+            cout << "Queue is full. Patient not added." << endl;
+            return;
+        }
+        rearIndex = (rearIndex + 1) % MAX_SIZE;
+        arr[rearIndex] = p;
+        total++;
+    }
+
+    bool dequeue(Patient &p) {
+        if (isEmpty()) return false;
+        p = arr[frontIndex];
+        frontIndex = (frontIndex + 1) % MAX_SIZE;
+        total--;
+        return true;
+    }
+
+    int count() {
+        return total;
+    }
+};
+
+int main() {
+    ArrayQueue criticalQueue;
+    ArrayQueue seriousQueue;
+    ArrayQueue normalQueue;
+
+    int treatmentOrder[MAX_SIZE];
+    int treatedCount = 0;
+
+    int n;
+    cout << "Enter number of operations: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        string operation;
+        cin >> operation;
+
+        if (operation == "ARRIVE") {
+            Patient p;
+            cin >> p.id >> p.severity;
+
+            if (p.severity == 1) {
+                criticalQueue.enqueue(p);
+            } else if (p.severity == 2) {
+                seriousQueue.enqueue(p);
+            } else if (p.severity == 3) {
+                normalQueue.enqueue(p);
+            } else {
+                cout << "Invalid severity for patient " << p.id << endl;
+            }
+        } else if (operation == "TREAT") {
+            Patient treated;
+            bool found = false;
+
+            if (!criticalQueue.isEmpty()) {
+                found = criticalQueue.dequeue(treated);
+            } else if (!seriousQueue.isEmpty()) {
+                found = seriousQueue.dequeue(treated);
+            } else if (!normalQueue.isEmpty()) {
+                found = normalQueue.dequeue(treated);
+            }
+
+            if (found) {
+                treatmentOrder[treatedCount] = treated.id;
+                treatedCount++;
+                cout << "Treated Patient ID: " << treated.id << endl;
+            } else {
+                cout << "No patient waiting." << endl;
+            }
+        } else {
+            cout << "Invalid operation ignored." << endl;
+        }
+    }
+
+    int remainingCritical = criticalQueue.count();
+    int remainingSerious = seriousQueue.count();
+    int remainingNormal = normalQueue.count();
+    int totalRemaining = remainingCritical + remainingSerious + remainingNormal;
+
+    cout << "\nTreatment order: ";
+    if (treatedCount == 0) {
+        cout << "None";
+    } else {
+        for (int i = 0; i < treatedCount; i++) {
+            cout << treatmentOrder[i] << " ";
+        }
+    }
+    cout << endl;
+
+    cout << "Total number of patients treated: " << treatedCount << endl;
+    cout << "Total number of patients remaining: " << totalRemaining << endl;
+    cout << "Critical patients waiting: " << remainingCritical << endl;
+    cout << "Serious patients waiting: " << remainingSerious << endl;
+    cout << "Normal patients waiting: " << remainingNormal << endl;
+
+    return 0;
+}
+  </script>
+
+  <script type="text/plain" id="cpp-q10">
+#include <iostream>
+using namespace std;
+
+const int MAX_PLAYERS = 100;
+const int MAX_ACTIONS = 1000;
+
+struct Player {
+    int id;
+    int energy;
+    char history[MAX_ACTIONS];
+    int top;
+};
+
+class PlayerQueue {
+private:
+    Player arr[MAX_PLAYERS];
+    int frontIndex;
+    int rearIndex;
+    int total;
+
+public:
+    PlayerQueue() {
+        frontIndex = 0;
+        rearIndex = -1;
+        total = 0;
+    }
+
+    bool isEmpty() {
+        return total == 0;
+    }
+
+    bool isFull() {
+        return total == MAX_PLAYERS;
+    }
+
+    void enqueue(Player p) {
+        if (isFull()) {
+            cout << "Waiting line is full." << endl;
+            return;
+        }
+        rearIndex = (rearIndex + 1) % MAX_PLAYERS;
+        arr[rearIndex] = p;
+        total++;
+    }
+
+    bool dequeue(Player &p) {
+        if (isEmpty()) return false;
+        p = arr[frontIndex];
+        frontIndex = (frontIndex + 1) % MAX_PLAYERS;
+        total--;
+        return true;
+    }
+
+    int count() {
+        return total;
+    }
+};
+
+void pushAction(Player &p, char action) {
+    if (p.top < MAX_ACTIONS - 1) {
+        p.top++;
+        p.history[p.top] = action;
+    }
+}
+
+bool popAction(Player &p, char &action) {
+    if (p.top == -1) return false;
+    action = p.history[p.top];
+    p.top--;
+    return true;
+}
+
+void processCommand(Player &p, char command) {
+    if (command == 'F') {
+        p.energy -= 10;
+        pushAction(p, 'F');
+    } else if (command == 'B') {
+        pushAction(p, 'B');
+    } else if (command == 'T') {
+        p.energy += 20;
+        pushAction(p, 'T');
+    } else if (command == 'U') {
+        char lastAction;
+        if (popAction(p, lastAction)) {
+            if (lastAction == 'F') {
+                p.energy += 10;
+            } else if (lastAction == 'B') {
+                // Backward move had no energy effect, so nothing is reversed.
+            } else if (lastAction == 'T') {
+                p.energy -= 20;
+            }
+        }
+    } else {
+        cout << "Invalid command ignored." << endl;
+    }
+}
+
+int main() {
+    PlayerQueue queue;
+    int eliminated[MAX_PLAYERS];
+    int eliminatedCount = 0;
+
+    int numberOfPlayers;
+    cout << "Enter number of players: ";
+    cin >> numberOfPlayers;
+
+    if (numberOfPlayers > MAX_PLAYERS) {
+        cout << "Maximum players allowed are " << MAX_PLAYERS << "." << endl;
+        return 0;
+    }
+
+    for (int i = 0; i < numberOfPlayers; i++) {
+        Player p;
+        cout << "Enter Player ID " << i + 1 << ": ";
+        cin >> p.id;
+        p.energy = 100;
+        p.top = -1;
+        queue.enqueue(p);
+    }
+
+    int n;
+    cout << "Enter number of commands: ";
+    cin >> n;
+
+    cout << "Enter commands (F, B, T, U): ";
+    for (int i = 0; i < n; i++) {
+        char command;
+        cin >> command;
+
+        if (queue.isEmpty()) {
+            cout << "No active players remaining. Command ignored." << endl;
+            continue;
+        }
+
+        Player current;
+        queue.dequeue(current);
+
+        cout << "Player " << current.id << " performs command " << command << endl;
+        processCommand(current, command);
+
+        if (current.energy <= 0) {
+            eliminated[eliminatedCount] = current.id;
+            eliminatedCount++;
+            cout << "Player " << current.id << " eliminated." << endl;
+        } else {
+            queue.enqueue(current);
+        }
+    }
+
+    cout << "\nElimination order: ";
+    if (eliminatedCount == 0) {
+        cout << "None";
+    } else {
+        for (int i = 0; i < eliminatedCount; i++) {
+            cout << eliminated[i] << " ";
+        }
+    }
+    cout << endl;
+
+    cout << "\nActive players in waiting line:" << endl;
+    if (queue.isEmpty()) {
+        cout << "No active players." << endl;
+    } else {
+        int activeCount = queue.count();
+        for (int i = 0; i < activeCount; i++) {
+            Player p;
+            queue.dequeue(p);
+            cout << "Player ID: " << p.id
+                 << ", Energy: " << p.energy
+                 << ", Undoable actions: " << (p.top + 1) << endl;
+            queue.enqueue(p);
+        }
+    }
+
+    return 0;
+}
+  </script>
+</body>
+</html>
