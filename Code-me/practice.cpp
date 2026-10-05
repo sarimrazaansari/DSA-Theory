@@ -28,8 +28,8 @@ void selectionSort(int* arr,int n){
             {
                 minIdx=j;
             }
-            swap(arr[minIdx],arr[i]);
         }
+        swap(arr[minIdx],arr[i]);
         
     }
 
