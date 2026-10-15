@@ -27,7 +27,7 @@ bool isSafe(int row, int col)
 
 bool solveMaze(int row, int col)
 {
-    // Base case
+    // Base case //final destination
     if (row == N - 1 && col == N - 1)
     {
         solution[row][col] = 1;

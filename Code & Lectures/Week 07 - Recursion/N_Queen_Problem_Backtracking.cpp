@@ -7,7 +7,7 @@ int board[N][N] = {0};
 
 bool isSafe(int row, int col)
 {
-    // Check same column
+    // Check same column //vertically
     for (int i = 0; i < row; i++)
     {
         if (board[i][col] == 1)
