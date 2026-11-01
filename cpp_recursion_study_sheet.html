@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ Recursion — Complete Study Sheet</title>
+<style>
+:root{--bg:#0a0c10;--panel:#111318;--panel2:#171a22;--border:#252a35;--text:#d4dae8;--muted:#929bad;--gold:#e8c56d;--blue:#5fb3ff;--red:#ff6b6b;--green:#6bffb8;--purple:#c5a3ff;--mono:"JetBrains Mono",Consolas,monospace;--sans:"DM Sans",Segoe UI,Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 var(--sans)}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:100vh}aside{position:sticky;top:0;height:100vh;overflow:auto;background:#0d0f14;border-right:1px solid var(--border);padding:26px 18px}.brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800}aside h2{font-size:19px;line-height:1.3;margin:12px 0 20px;color:#fff}nav a{display:block;padding:7px 10px;border-radius:7px;color:var(--muted);font-size:13px}nav a:hover{background:var(--panel2);color:var(--text);text-decoration:none}
+main{max-width:1100px;width:100%;padding:44px clamp(20px,5vw,70px) 80px;margin:auto}.eyebrow{font:12px var(--mono);color:var(--green);letter-spacing:.13em;text-transform:uppercase}h1{font-size:clamp(32px,5vw,54px);line-height:1.1;letter-spacing:-.04em;color:#fff;margin:12px 0}h2{font-size:27px;line-height:1.25;color:#fff;margin:0 0 15px;letter-spacing:-.025em}h3{font-size:18px;color:var(--gold);margin:25px 0 8px}p{margin:10px 0 15px}.lead{font-size:18px;color:#b6bfd0;max-width:760px}.hero{padding:0 0 34px;border-bottom:1px solid var(--border);margin-bottom:36px}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.pill{font-size:12px;border:1px solid var(--border);border-radius:99px;padding:5px 10px;color:var(--muted)}section{margin:0 0 48px}.section-intro{color:var(--muted);margin-top:-5px}.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px;margin:16px 0}.callout{border-left:3px solid var(--gold);background:#17160f;padding:14px 17px;border-radius:0 9px 9px 0;margin:17px 0}.callout.blue{border-color:var(--blue);background:#0f1821}.callout.green{border-color:var(--green);background:#0e1a16}.callout.red{border-color:var(--red);background:#201214}
+code,pre{font-family:var(--mono);font-size:13px}code{color:#f3d990}pre{background:#080a0e;border:1px solid var(--border);border-radius:10px;padding:17px;overflow:auto;line-height:1.65;color:#dce4f5;margin:12px 0}.kw{color:#c5a3ff}.str{color:#6bffb8}.num{color:#e8c56d}.comment{color:#7d8799}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.mini{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:15px}.mini strong{display:block;color:#fff;margin-bottom:5px}.mini p{font-size:14px;color:var(--muted);margin:0}.diagram{font-family:var(--mono);font-size:13px;white-space:pre;overflow:auto;background:#080a0e;border:1px solid var(--border);padding:18px;border-radius:10px;color:#bfe0ff;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}th{color:var(--gold);font-weight:700;background:#151820}tr:hover td{background:#11151d}.step{display:grid;grid-template-columns:35px 1fr;gap:12px;margin:15px 0}.stepnum{width:30px;height:30px;display:grid;place-items:center;border-radius:8px;background:#242219;color:var(--gold);font:700 13px var(--mono)}.step p{margin:0}.tag{font:11px var(--mono);padding:3px 7px;border-radius:5px;background:#1b2632;color:var(--blue)}.small{font-size:13px;color:var(--muted)}details{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:12px 15px;margin:10px 0}summary{cursor:pointer;color:var(--gold);font-weight:700}details p{margin-bottom:0}.cheat h2{color:var(--green)}.cheat .card{border-color:#31463d}footer{border-top:1px solid var(--border);padding-top:24px;color:var(--muted);font-size:13px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--border);padding:16px 20px}aside h2{margin-bottom:10px}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}main{padding-top:30px}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}main{padding-left:16px;padding-right:16px}h2{font-size:24px}pre{font-size:12px;padding:13px}}
+@media print{aside{display:none}.layout{display:block}main{max-width:none;padding:0}body{background:white;color:#222}.card,pre,.diagram{break-inside:avoid}h1,h2,h3{color:#111}pre,.diagram{color:#111;background:#f5f5f5}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside><div class="brand">DSA / C++</div><h2>Recursion<br>Study Sheet</h2><nav>
+<a href="#start">01 · The idea</a><a href="#rules">02 · Three rules</a><a href="#stack">03 · Call stack</a><a href="#print">04 · Print 1 to n</a><a href="#factorial">05 · Factorial</a><a href="#fibonacci">06 · Fibonacci</a><a href="#types">07 · Recursion types</a><a href="#array">08 · Array problems</a><a href="#binary">09 · Binary search</a><a href="#backtracking">10 · Backtracking</a><a href="#complexity">11 · Complexity</a><a href="#mistakes">12 · Mistakes & practice</a><a href="#cheat">13 · Cheat sheet</a>
+</nav></aside>
+<main>
+<header class="hero" id="start"><div class="eyebrow">Concept → trace → implement</div><h1>C++ Recursion</h1><p class="lead">A complete beginner-friendly guide to recursive functions, the call stack, tracing, recursion trees, searching, and backtracking—with C++ examples and a final exam-ready cheat sheet.</p><div class="pills"><span class="pill">Beginner friendly</span><span class="pill">Dry runs</span><span class="pill">Stack diagrams</span><span class="pill">C++</span></div></header>
+
+<section><h2>01. What is recursion?</h2><p><strong>Recursion</strong> is when a function solves a problem by calling itself on a smaller version of the same problem.</p><div class="grid2"><div class="mini"><strong>Everyday analogy</strong><p>You open a box, find a smaller box inside, and keep opening boxes until you reach the final empty box. Then you work your way back out.</p></div><div class="mini"><strong>Programming idea</strong><p>A function keeps calling itself with a smaller input until it reaches a condition where no further call is needed.</p></div></div>
+<pre><span class="kw">void</span> countdown(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>)
+        <span class="kw">return</span>;
+
+    cout &lt;&lt; n &lt;&lt; endl;
+    countdown(n - <span class="num">1</span>);
+}</pre><p>Calling <code>countdown(3)</code> prints <code>3, 2, 1</code>. Each call receives a smaller value: 3 → 2 → 1 → 0.</p><div class="callout"><strong>Key idea:</strong> Recursion is not an endless loop by definition. It is a sequence of function calls that must eventually reach a stopping condition.</div></section>
+
+<section id="rules"><h2>02. The three rules of recursion</h2><div class="step"><div class="stepnum">1</div><p><strong>Base case:</strong> the condition that stops further recursive calls.</p></div><div class="step"><div class="stepnum">2</div><p><strong>Recursive case:</strong> the function calls itself to solve a smaller subproblem.</p></div><div class="step"><div class="stepnum">3</div><p><strong>Progress:</strong> every call must move closer to the base case.</p></div>
+<pre><span class="kw">int</span> sumTo(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>)
+        <span class="kw">return</span> <span class="num">0</span>;
+
+    <span class="kw">return</span> n + sumTo(n - <span class="num">1</span>);
+}</pre><div class="callout red"><strong>Danger:</strong> If the base case is missing—or the input never moves toward it—the function may keep calling itself until the program runs out of stack space.</div></section>
+
+<section id="stack"><h2>03. Understanding the call stack</h2><p>Every function call gets its own <strong>stack frame</strong>. That frame stores information for that particular call, such as its parameters, local variables, and where execution should continue after the call returns.</p><p>The stack follows <strong>LIFO</strong>: Last In, First Out. The most recently called function finishes first.</p>
+<pre><span class="kw">void</span> fun(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>)
+        <span class="kw">return</span>;
+
+    cout &lt;&lt; <span class="str">"Before "</span> &lt;&lt; n &lt;&lt; endl;
+    fun(n - <span class="num">1</span>);
+    cout &lt;&lt; <span class="str">"After "</span> &lt;&lt; n &lt;&lt; endl;
+}</pre>
+<h3>Dry run: fun(3)</h3><div class="diagram">CALLING DOWN (new frames are added)
+
+fun(3)  prints "Before 3"
+  └─ fun(2)  prints "Before 2"
+       └─ fun(1)  prints "Before 1"
+            └─ fun(0)  base case; returns
+
+RETURNING UP (frames finish in reverse order)
+
+fun(1) resumes → prints "After 1" → finishes
+fun(2) resumes → prints "After 2" → finishes
+fun(3) resumes → prints "After 3" → finishes</div><p><strong>Output:</strong></p><pre>Before 3
+Before 2
+Before 1
+After 1
+After 2
+After 3</pre><div class="callout blue"><strong>The rule:</strong> after a recursive call returns, the caller resumes at the statement immediately after that call. The caller's frame has not disappeared yet. It continues through the rest of its function, in order, until it reaches the end or executes a return.</div>
+<h3>What exactly happens?</h3><div class="step"><div class="stepnum">1</div><p><code>fun(3)</code> pauses while it waits for <code>fun(2)</code>.</p></div><div class="step"><div class="stepnum">2</div><p><code>fun(2)</code> pauses while it waits for <code>fun(1)</code>.</p></div><div class="step"><div class="stepnum">3</div><p><code>fun(1)</code> calls <code>fun(0)</code>. The base case returns immediately.</p></div><div class="step"><div class="stepnum">4</div><p><code>fun(1)</code> resumes, prints <code>After 1</code>, and finishes. Its frame is removed.</p></div><div class="step"><div class="stepnum">5</div><p><code>fun(2)</code> resumes, then <code>fun(3)</code>. Each finishes in turn.</p></div><div class="callout"><strong>Remember:</strong> a recursive call does not erase the caller. It pauses the caller until the deeper call finishes.</div></section>
+
+<section id="print"><h2>04. Print 1 to n vs n to 1</h2><p>The location of the print statement relative to the recursive call changes the output.</p><div class="grid2"><div class="card"><h3>Print before the call</h3><pre><span class="kw">void</span> decreasing(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+    cout &lt;&lt; n &lt;&lt; <span class="str">" "</span>;
+    decreasing(n - <span class="num">1</span>);
+}</pre><p>For <code>decreasing(4)</code>: <code>4 3 2 1</code></p><span class="tag">Print while going down</span></div><div class="card"><h3>Print after the call</h3><pre><span class="kw">void</span> increasing(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+    increasing(n - <span class="num">1</span>);
+    cout &lt;&lt; n &lt;&lt; <span class="str">" "</span>;
+}</pre><p>For <code>increasing(4)</code>: <code>1 2 3 4</code></p><span class="tag">Print while returning</span></div></div><div class="callout green">Statements <em>before</em> the recursive call run on the way down. Statements <em>after</em> the recursive call run on the way back up.</div></section>
+
+<section id="factorial"><h2>05. Factorial: returning a value</h2><p>Factorial means multiplying a positive integer by every positive integer below it. For example, 4! = 4 × 3 × 2 × 1 = 24. By definition, 0! = 1.</p><pre><span class="kw">int</span> factorial(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>)
+        <span class="kw">return</span> <span class="num">1</span>;
+
+    <span class="kw">return</span> n * factorial(n - <span class="num">1</span>);
+}</pre><h3>Trace factorial(4)</h3><div class="diagram">factorial(4) = 4 * factorial(3)  waits
+factorial(3) = 3 * factorial(2)  waits
+factorial(2) = 2 * factorial(1)  waits
+factorial(1) = 1 * factorial(0)  waits
+factorial(0) = 1                  base case
+
+Now return upward:
+factorial(1) = 1 * 1  = 1
+factorial(2) = 2 * 1  = 2
+factorial(3) = 3 * 2  = 6
+factorial(4) = 4 * 6  = 24</div><p>In <code>n * factorial(n - 1)</code>, the function needs the returned value of <code>factorial(n - 1)</code> before it can finish the multiplication.</p><div class="callout red">This is not equivalent to <code>factorial(n - 1); return n;</code>. The recursive result must be used if you want the factorial value.</div></section>
+
+<section id="fibonacci"><h2>06. Fibonacci and recursion trees</h2><p>In the Fibonacci sequence, each number is the sum of the previous two. Here, <code>fib(0) = 0</code> and <code>fib(1) = 1</code>.</p><pre><span class="kw">int</span> fib(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n &lt;= <span class="num">1</span>)
+        <span class="kw">return</span> n;
+
+    <span class="kw">return</span> fib(n - <span class="num">1</span>) + fib(n - <span class="num">2</span>);
+}</pre><h3>Recursion tree for fib(4)</h3><div class="diagram">                 fib(4)
+                /      \
+            fib(3)     fib(2)
+            /   \       /   \
+         fib(2) fib(1) fib(1) fib(0)
+          /  \
+       fib(1) fib(0)
+
+fib(2)=1, fib(3)=2, fib(4)=3.</div><p>Each Fibonacci call makes <strong>two</strong> recursive calls. The same values are recalculated multiple times.</p><div class="grid2"><div class="mini"><strong>Simple recursive Fibonacci</strong><p>Easy to understand, but repeated work makes it exponential in time—often given as O(2ⁿ) as a loose upper bound.</p></div><div class="mini"><strong>Memoization / dynamic programming</strong><p>Save previously calculated values so each Fibonacci value is computed once. Time can be reduced to O(n).</p></div></div></section>
+
+<section id="types"><h2>07. Types of recursion</h2><table><thead><tr><th>Type</th><th>Meaning</th><th>Example idea</th></tr></thead><tbody><tr><td><strong>Direct</strong></td><td>A function calls itself.</td><td><code>f() → f()</code></td></tr><tr><td><strong>Indirect / mutual</strong></td><td>Functions call one another in a cycle.</td><td><code>f() → g() → f()</code></td></tr><tr><td><strong>Tail</strong></td><td>The recursive call is the last meaningful operation.</td><td>Call at the end</td></tr><tr><td><strong>Head</strong></td><td>The recursive call happens before the main work.</td><td>Call first, print after</td></tr><tr><td><strong>Multiple / tree</strong></td><td>A call makes more than one recursive call.</td><td>Fibonacci</td></tr><tr><td><strong>Nested</strong></td><td>A recursive call is used as an argument to another call of the same function.</td><td><code>f(f(n - 1))</code></td></tr></tbody></table><p class="small">These labels describe different properties, so they can overlap. A function can be direct recursion and tail-recursive at the same time.</p><h3>Tail vs non-tail example</h3><pre><span class="comment">// Tail style</span>
+<span class="kw">void</span> tail(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+    cout &lt;&lt; n &lt;&lt; <span class="str">" "</span>;
+    tail(n - <span class="num">1</span>);
+}
+
+<span class="comment">// Non-tail: work remains after the call returns</span>
+<span class="kw">void</span> nonTail(<span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+    nonTail(n - <span class="num">1</span>);
+    cout &lt;&lt; n &lt;&lt; <span class="str">" "</span>;
+}</pre></section>
+
+<section id="array"><h2>08. Common recursive array problems</h2><h3>A. Check whether an array is sorted</h3><p>Compare adjacent elements. If the current pair is out of order, return false. Otherwise, move to the next index.</p><pre><span class="kw">bool</span> isSorted(<span class="kw">int</span> arr[], <span class="kw">int</span> n, <span class="kw">int</span> i = <span class="num">0</span>)
+{
+    <span class="kw">if</span> (i &gt;= n - <span class="num">1</span>)
+        <span class="kw">return true</span>;
+
+    <span class="kw">if</span> (arr[i] &gt; arr[i + <span class="num">1</span>])
+        <span class="kw">return false</span>;
+
+    <span class="kw">return</span> isSorted(arr, n, i + <span class="num">1</span>);
+}</pre><p>For <code>{2, 4, 6, 9}</code>, each pair passes and the base case returns true. For <code>{2, 7, 5, 9}</code>, the comparison <code>7 &gt; 5</code> returns false.</p><p class="small">This version assumes n is non-negative. Empty and one-element arrays are considered sorted.</p><h3>B. Reverse an array</h3><pre><span class="kw">void</span> reverseArray(<span class="kw">int</span> arr[], <span class="kw">int</span> left, <span class="kw">int</span> right)
+{
+    <span class="kw">if</span> (left &gt;= right)
+        <span class="kw">return</span>;
+
+    <span class="kw">int</span> temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+
+    reverseArray(arr, left + <span class="num">1</span>, right - <span class="num">1</span>);
+}</pre><p>Each call swaps the outside pair and moves both pointers toward the middle.</p><h3>C. Sum the elements of an array</h3><pre><span class="kw">int</span> sumArray(<span class="kw">int</span> arr[], <span class="kw">int</span> n)
+{
+    <span class="kw">if</span> (n == <span class="num">0</span>)
+        <span class="kw">return</span> <span class="num">0</span>;
+
+    <span class="kw">return</span> arr[n - <span class="num">1</span>] + sumArray(arr, n - <span class="num">1</span>);
+}</pre><p>Each call takes the last element of the current prefix and adds it to the sum of the shorter prefix.</p></section>
+
+<section id="binary"><h2>09. Recursive binary search</h2><p>Binary search only works correctly on a <strong>sorted array</strong>. It checks the middle value and discards half of the remaining search range each time.</p><pre><span class="kw">int</span> binarySearch(<span class="kw">int</span> arr[], <span class="kw">int</span> low, <span class="kw">int</span> high, <span class="kw">int</span> target)
+{
+    <span class="kw">if</span> (low &gt; high)
+        <span class="kw">return</span> -<span class="num">1</span>;
+
+    <span class="kw">int</span> mid = low + (high - low) / <span class="num">2</span>;
+
+    <span class="kw">if</span> (arr[mid] == target)
+        <span class="kw">return</span> mid;
+
+    <span class="kw">if</span> (target &lt; arr[mid])
+        <span class="kw">return</span> binarySearch(arr, low, mid - <span class="num">1</span>, target);
+
+    <span class="kw">return</span> binarySearch(arr, mid + <span class="num">1</span>, high, target);
+}</pre><h3>Example</h3><p>Array: <code>{2, 5, 8, 12, 16, 23, 38}</code>, target: <code>16</code>.</p><table><thead><tr><th>low</th><th>high</th><th>mid</th><th>arr[mid]</th><th>Decision</th></tr></thead><tbody><tr><td>0</td><td>6</td><td>3</td><td>12</td><td>16 is larger → search right half</td></tr><tr><td>4</td><td>6</td><td>5</td><td>23</td><td>16 is smaller → search left half</td></tr><tr><td>4</td><td>4</td><td>4</td><td>16</td><td>Found at index 4</td></tr></tbody></table><div class="callout"><strong>Base cases:</strong> target found → return index. Search range empty (<code>low &gt; high</code>) → return <code>-1</code>.</div><p><strong>Complexity:</strong> O(log n) time, O(log n) call-stack space in the recursive version.</p></section>
+
+<section id="backtracking"><h2>10. Backtracking: choose, explore, undo</h2><p><strong>Backtracking</strong> explores possible choices. If a choice is finished—or cannot lead to a valid solution—the algorithm reverses that choice and tries another.</p><div class="grid3"><div class="mini"><strong>1. Choose</strong><p>Make a temporary decision.</p></div><div class="mini"><strong>2. Explore</strong><p>Recursively explore what follows.</p></div><div class="mini"><strong>3. Undo</strong><p>Restore state so another choice can be tried.</p></div></div><h3>Example: generate all binary strings of length n</h3><pre><span class="kw">void</span> generate(<span class="kw">string</span>&amp; s, <span class="kw">int</span> n)
+{
+    <span class="kw">if</span> ((<span class="kw">int</span>)s.length() == n)
+    {
+        cout &lt;&lt; s &lt;&lt; endl;
+        <span class="kw">return</span>;
+    }
+
+    s += <span class="str">'0'</span>;
+    generate(s, n);
+    s.pop_back();
+
+    s += <span class="str">'1'</span>;
+    generate(s, n);
+    s.pop_back();
+}</pre><p>Call with an empty string and <code>n = 2</code>:</p><pre>00
+01
+10
+11</pre><p>The string is passed by reference so recursive calls share the same string. <code>pop_back()</code> removes the last character after each branch, restoring the string to its earlier state.</p><div class="diagram">                    ""
+                  /    \
+                "0"    "1"
+               /  \    /  \
+             "00" "01" "10" "11"</div><h3>Where backtracking is used</h3><ul><li><strong>Subsets:</strong> include or exclude each element.</li><li><strong>Permutations:</strong> choose one unused element at each position.</li><li><strong>Maze solving:</strong> try a path; undo it if it fails.</li><li><strong>N-Queens:</strong> place queens while checking that each placement is safe.</li></ul><div class="callout red"><strong>Common bug:</strong> forgetting to undo a choice can contaminate later branches with old state. Undo exactly what you changed, at the correct level.</div></section>
+
+<section id="complexity"><h2>11. Recursion and time complexity</h2><table><thead><tr><th>Problem</th><th>Typical time</th><th>Stack space</th><th>Why</th></tr></thead><tbody><tr><td>Count down / sum to n</td><td>O(n)</td><td>O(n)</td><td>One call per input step</td></tr><tr><td>Factorial</td><td>O(n)</td><td>O(n)</td><td>One call per smaller integer</td></tr><tr><td>Binary search</td><td>O(log n)</td><td>O(log n)</td><td>Range halves each call</td></tr><tr><td>Reverse array</td><td>O(n)</td><td>O(n)</td><td>About n/2 calls, still O(n)</td></tr><tr><td>Naive Fibonacci</td><td>Exponential</td><td>O(n)</td><td>Repeated branching work</td></tr><tr><td>Binary strings length n</td><td>O(2ⁿ) output work</td><td>O(n)</td><td>There are 2ⁿ strings to generate</td></tr></tbody></table><p><strong>Time complexity</strong> counts the work performed. <strong>Space complexity</strong> counts extra memory; recursive calls use stack frames. If recursion depth is n, stack space is often O(n).</p></section>
+
+<section id="mistakes"><h2>12. Common mistakes and practice</h2><div class="grid2"><div class="mini"><strong>No base case</strong><p>Calls never stop.</p></div><div class="mini"><strong>No progress</strong><p>Calling <code>f(n)</code> again with the same n can loop through calls forever.</p></div><div class="mini"><strong>Wrong return</strong><p>A recursive result is calculated but not returned or used.</p></div><div class="mini"><strong>Wrong print location</strong><p>Printing before vs after the call reverses output order.</p></div><div class="mini"><strong>Wrong binary-search bounds</strong><p>Use <code>mid - 1</code> and <code>mid + 1</code> so the range shrinks.</p></div><div class="mini"><strong>Forgotten undo</strong><p>Backtracking branches accidentally share leftover changes.</p></div></div><h3>Practice questions</h3><details><summary>1. What does a function print if it calls f(n-1) before printing n?</summary><p>For a base case of n == 0 and a call f(3), it prints <code>1 2 3</code>. Printing happens during stack unwinding.</p></details><details><summary>2. What is sumTo(4) if sumTo(n) returns n + sumTo(n-1), with sumTo(0)=0?</summary><p>4 + 3 + 2 + 1 + 0 = <strong>10</strong>.</p></details><details><summary>3. Why does binary search need a sorted array?</summary><p>Comparing with the middle element must tell us which half can safely be discarded.</p></details><details><summary>4. In backtracking, why do we undo a choice?</summary><p>To restore the state before exploring a different branch.</p></details><details><summary>5. What executes after a recursive call returns?</summary><p>The caller resumes at the next statement after the call, executes remaining statements in order, and eventually returns or reaches the end of the function.</p></details><details><summary>6. What is the base case for reverseArray(arr, left, right)?</summary><p><code>left &gt;= right</code>, because the pointers have met or crossed and there are no more pairs to swap.</p></details><h3>How to dry-run any recursive function</h3><div class="step"><div class="stepnum">1</div><p>Write down the first call and its arguments.</p></div><div class="step"><div class="stepnum">2</div><p>Mark each statement that runs before the recursive call.</p></div><div class="step"><div class="stepnum">3</div><p>Keep expanding calls until the base case is reached.</p></div><div class="step"><div class="stepnum">4</div><p>Return to the most recent waiting call and continue after its recursive call.</p></div><div class="step"><div class="stepnum">5</div><p>Track returned values separately from printed output. A function can return a value without printing it.</p></div></section>
+
+<section id="cheat" class="cheat"><h2>13. Recursion cheat sheet</h2><p class="section-intro">Quick revision before a quiz or lab exam.</p><div class="card"><h3>Universal pattern</h3><pre>returnType function(parameters)
+{
+    if (base_condition)
+        return base_value;
+
+    // Make progress toward the base case
+    return combine(current_work, function(smaller_input));
+}</pre></div><table><thead><tr><th>Remember</th><th>Rule</th></tr></thead><tbody><tr><td>Base case</td><td>Stops recursive calls.</td></tr><tr><td>Progress</td><td>Every call should get closer to the base case.</td></tr><tr><td>Before recursive call</td><td>Runs while descending into calls.</td></tr><tr><td>After recursive call</td><td>Runs when the deeper call returns.</td></tr><tr><td>Call stack</td><td>Last called, first to finish (LIFO).</td></tr><tr><td>Return statement</td><td>Sends a value back to the waiting caller and ends that invocation.</td></tr><tr><td>Backtracking</td><td>Choose → explore → undo.</td></tr><tr><td>Binary search</td><td>Sorted input; stop if low &gt; high.</td></tr><tr><td>Naive Fibonacci</td><td>Two recursive calls; repeated work.</td></tr><tr><td>Stack space</td><td>Usually proportional to maximum recursion depth.</td></tr></tbody></table><h3>Patterns to understand</h3><pre><span class="comment">// 1. Print n down to 1</span>
+<span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+cout &lt;&lt; n;
+f(n - <span class="num">1</span>);
+
+<span class="comment">// 2. Print 1 up to n</span>
+<span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span>;
+f(n - <span class="num">1</span>);
+cout &lt;&lt; n;
+
+<span class="comment">// 3. Sum from 1 to n</span>
+<span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+<span class="kw">return</span> n + f(n - <span class="num">1</span>);
+
+<span class="comment">// 4. Factorial</span>
+<span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+<span class="kw">return</span> n * f(n - <span class="num">1</span>);
+
+<span class="comment">// 5. Binary search: empty range</span>
+<span class="kw">if</span> (low &gt; high) <span class="kw">return</span> -<span class="num">1</span>;
+
+<span class="comment">// 6. Backtracking</span>
+choose();
+explore();
+undo();</pre><div class="callout green"><strong>Final self-check:</strong> For every recursive solution, ask: (1) What is the base case? (2) How does the input/state change? (3) What happens before the call? (4) What happens after it returns? (5) What does the function return?</div></section>
+<footer><p>Study note: recursion is easier when you trace one call at a time. Follow the calls down to the base case, then unwind them in reverse order.</p><p>Standalone HTML · Save this file and open it in any modern browser. Use your browser’s Print option to print or save as PDF.</p></footer>
+</main></div></body></html>
